@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Transport extends CI_Controller
+class User extends CI_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('TransModel', 'model');
+        $this->load->model('UserModel', 'model');
         // $this->load->model('Auth_model');
 
         // $user = $this->Auth_model->current_user();
@@ -17,71 +17,62 @@ class Transport extends CI_Controller
 
     public function index()
     {
-        $data['judul'] = 'transport';
+        $data['judul'] = 'user';
         $data['data'] = $this->model->data()->result();
         // $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
-        $this->load->view('trans', $data);
+        $this->load->view('user', $data);
         $this->load->view('foot');
     }
 
     public function add()
     {
-        $data1 = $this->db->query("SELECT max(substring(kode_transport, 6)) as maxKode FROM transport ")->row();
-        $kodeBarang = $data1->maxKode == null ? '0000' : $data1->maxKode;
-        $noUrut = (int) substr($kodeBarang, 0, 4);
-        $noUrut++;
-        $char = "TRANS";
-        $kodeBarang = $char . sprintf("%04s", $noUrut);
-        $kode = htmlspecialchars($kodeBarang);
-
         $data = [
-            'kode_transport' => $kode,
-            'daerah' => $this->input->post('daerah', true),
-            'nominal' => rmRp($this->input->post('nominal', true)),
-            'sopir' => rmRp($this->input->post('sopir', true)),
-            'tahun' => '2022/2023'
+            'nama' => $this->input->post('nama', true),
+            'username' => $this->input->post('username', true),
+            'level' => $this->input->post('level', true),
+            'password' => password_hash($this->input->post('password', true), PASSWORD_BCRYPT),
+            'aktif' => $this->input->post('aktif', true),
         ];
 
-        $this->model->simpan('transport', $data);
+        $this->model->simpan('user', $data);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Data Berhasil Ditambahkan');
-            redirect('transport');
+            redirect('user');
         } else {
             $this->session->set_flashdata('error', 'Tambah Data Gagal');
-            redirect('transport');
+            redirect('user');
         }
     }
 
     public function edit()
     {
-        $where = $this->input->post('kode_transport', true);
+        $where = $this->input->post('kode_kriteria', true);
         $data = [
-            'daerah' => $this->input->post('daerah', true),
-            'nominal' => rmRp($this->input->post('nominal', true)),
-            'sopir' => rmRp($this->input->post('sopir', true))
+            'nama' => $this->input->post('nama', true),
+            'nominal' => rmRp($this->input->post('nominal', true))
         ];
 
-        $this->model->edit('transport', $data, $where);
+        $this->model->edit('kriteria', $data, $where);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Update Data Berhasil ');
-            redirect('transport');
+            redirect('kriteria');
         } else {
             $this->session->set_flashdata('error', 'Edit Data Gagal');
-            redirect('transport');
+            redirect('kriteria');
         }
     }
 
     public function del($kode)
     {
-        $this->model->hapus('transport', $kode);
+        $this->model->hapus('user', $kode);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Hapus Data Berhasil ');
-            redirect('transport');
+            redirect('user');
         } else {
             $this->session->set_flashdata('error', 'Hapus Data Gagal');
-            redirect('transport');
+            redirect('user');
         }
     }
 }

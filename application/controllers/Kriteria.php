@@ -17,7 +17,7 @@ class Kriteria extends CI_Controller
 
     public function index()
     {
-        $data['judul'] = 'santri';
+        $data['judul'] = 'kriteria';
         $data['data'] = $this->model->data()->result();
         // $data['user'] = $this->Auth_model->current_user();
 

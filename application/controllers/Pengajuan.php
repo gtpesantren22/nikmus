@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Transport extends CI_Controller
+class Pengajuan extends CI_Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('TransModel', 'model');
+        $this->load->model('PengajuanModel', 'model');
         // $this->load->model('Auth_model');
 
         // $user = $this->Auth_model->current_user();
@@ -17,12 +17,12 @@ class Transport extends CI_Controller
 
     public function index()
     {
-        $data['judul'] = 'transport';
+        $data['judul'] = 'pengajuan';
         $data['data'] = $this->model->data()->result();
         // $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
-        $this->load->view('trans', $data);
+        $this->load->view('pengajuan', $data);
         $this->load->view('foot');
     }
 

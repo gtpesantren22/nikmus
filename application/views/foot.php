@@ -29,7 +29,7 @@
 <script src="<?= base_url('assets/') ?>plugins/select2/select2.full.min.js"></script>
 <!-- DataTables -->
 <script src="<?= base_url('assets/') ?>plugins/jQuery/jquery-3.5.1.js"></script>
-<script src="<?= base_url('assets/') ?>plugins/datatables/jquery.dataTables.min.js"></script> -->
+<script src="<?= base_url('assets/') ?>plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/') ?>plugins/datatables/dataTables.bootstrap.min.js"></script>
 
 <!-- Sparkline -->

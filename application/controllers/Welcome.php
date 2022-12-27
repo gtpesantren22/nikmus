@@ -5,7 +5,9 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('head');
+		$data['judul'] = 'index';
+
+		$this->load->view('head', $data);
 		$this->load->view('index');
 		$this->load->view('foot');
 	}
