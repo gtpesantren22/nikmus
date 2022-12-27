@@ -19,15 +19,19 @@
 <!-- Bootstrap 3.3.5 -->
 <!-- <script src="bootstrap/js/bootstrap.min.js"></script> -->
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+</script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="<?= base_url('assets/') ?>plugins/morris/morris.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url('assets/') ?>plugins/select2/select2.full.min.js"></script>
 <!-- DataTables -->
-<script src="<?= base_url('assets/') ?>plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets/') ?>plugins/jQuery/jquery-3.5.1.js"></script>
+<script src="<?= base_url('assets/') ?>plugins/datatables/jquery.dataTables.min.js"></script> -->
 <script src="<?= base_url('assets/') ?>plugins/datatables/dataTables.bootstrap.min.js"></script>
+
 <!-- Sparkline -->
 <script src="<?= base_url('assets/') ?>plugins/sparkline/jquery.sparkline.min.js"></script>
 
@@ -50,20 +54,19 @@
 <script src="<?= base_url('assets/') ?>dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets/') ?>dist/js/demo.js"></script>
+<script src="<?= base_url('assets/') ?>dist/jquery.mask.min.js"></script>
+<script src="<?= base_url('assets/plugins/sw/') ?>sweetalert2.all.min.js"></script>
 
 <script>
-    $(function() {
-        $("#example1_bst").DataTable();
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
-        });
+$(document).ready(function() {
+    $('#example1').DataTable();
+
+    // Format mata uang.
+    $('.uang').mask('000.000.000.000', {
+        reverse: true
     });
+
+});
 </script>
 </body>
 

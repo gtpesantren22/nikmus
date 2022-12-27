@@ -65,13 +65,15 @@
 
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="user-image" alt="User Image">
+                                <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="user-image"
+                                    alt="User Image">
                                 <span class="hidden-xs">Nama Admin</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="img-circle" alt="User Image">
+                                    <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="img-circle"
+                                        alt="User Image">
                                     <p>
                                         Nama Operator - Admin
                                         <small>Administrator</small>
@@ -83,13 +85,15 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="logout.php" onclick="return confirm('Yakin akan keluar ?')" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="logout.php" onclick="return confirm('Yakin akan keluar ?')"
+                                            class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
                         </li>
                         <li class="dropdown user user-menu">
-                            <a href="logout.php" onclick="return confirm('Yakin akan keluar ?')" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="logout.php" onclick="return confirm('Yakin akan keluar ?')" class="dropdown-toggle"
+                                data-toggle="dropdown">
                                 <i class="fa fa-power-off"></i>
                             </a>
                         </li>
@@ -121,13 +125,18 @@
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-users"></i> <span>Master Data</span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-users"></i> <span>Master Data</span> <i
+                                class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li class=""><a href=""><i class="fa fa-circle-o"></i> Data Santri</a></li>
-                            <li class=""><a href=""><i class="fa fa-circle-o"></i> Data Transportasi</a></li>
-                            <li class=""><a href=""><i class="fa fa-circle-o"></i> Data Kriteria</a></li>
-                            <li class=""><a href=""><i class="fa fa-circle-o"></i> Data User</a></li>
+                            <li class=""><a href="<?= base_url('santri') ?>"><i class="fa fa-circle-o"></i> Data
+                                    Santri</a></li>
+                            <li class=""><a href="<?= base_url('transport') ?>"><i class="fa fa-circle-o"></i> Data
+                                    Transportasi</a></li>
+                            <li class=""><a href="<?= base_url('kriteria') ?>"><i class="fa fa-circle-o"></i> Data
+                                    Kriteria</a></li>
+                            <li class=""><a href="<?= base_url('user') ?>"><i class="fa fa-circle-o"></i> Data User</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
