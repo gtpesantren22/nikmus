@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Des 2022 pada 04.43
+-- Waktu pembuatan: 28 Des 2022 pada 08.04
 -- Versi server: 10.4.25-MariaDB
 -- Versi PHP: 8.1.10
 
@@ -60,8 +60,16 @@ CREATE TABLE `pengajuan` (
   `sopir` decimal(20,0) NOT NULL,
   `tgl_jalan` date NOT NULL,
   `tahun` varchar(15) NOT NULL,
+  `status` enum('belum','proses','ditolak','disetujui','selesai') NOT NULL,
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `pengajuan`
+--
+
+INSERT INTO `pengajuan` (`id_pengajuan`, `kode_pengajuan`, `nama`, `kriteria`, `nom_kriteria`, `daerah`, `transport`, `sopir`, `tgl_jalan`, `tahun`, `status`, `created`) VALUES
+(1, 'NMKS0001', 'Andika Mandai', 'Santri Sakit Opname', '250000', 'Probolinggo', '100000', '30000', '2022-12-28', '2022/2023', 'disetujui', '2022-12-27 15:43:00');
 
 -- --------------------------------------------------------
 
@@ -2090,7 +2098,7 @@ CREATE TABLE `transport` (
 --
 
 INSERT INTO `transport` (`id_transport`, `kode_transport`, `daerah`, `nominal`, `sopir`, `tahun`) VALUES
-(4, 'TRANS0001', 'Kraksaan', '15000', '0', '2022/2023'),
+(4, 'TRANS0001', 'Kraksaan', '15000', '5000', '2022/2023'),
 (5, 'TRANS0002', 'Probolinggo', '100000', '30000', '2022/2023');
 
 -- --------------------------------------------------------
@@ -2170,7 +2178,7 @@ ALTER TABLE `kriteria`
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `spj`

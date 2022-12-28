@@ -55,7 +55,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url('assets/') ?>dist/js/demo.js"></script>
 <script src="<?= base_url('assets/') ?>dist/jquery.mask.min.js"></script>
-<script src="<?= base_url('assets/plugins/sw/') ?>sweetalert2.all.min.js"></script>
 
 <script>
 $(document).ready(function() {
@@ -65,6 +64,11 @@ $(document).ready(function() {
     $('.uang').mask('000.000.000.000', {
         reverse: true
     });
+
+    //Date picker
+    $('#datepicker').datepicker({
+        autoclose: true
+    })
 
 });
 </script>

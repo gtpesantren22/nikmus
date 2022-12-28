@@ -17,7 +17,7 @@ class Pengajuan extends CI_Controller
 
     public function index()
     {
-        $data['judul'] = 'pengajuan';
+        $data['judul'] = 'data';
         $data['data'] = $this->model->data()->result();
         // $data['user'] = $this->Auth_model->current_user();
 
@@ -28,60 +28,115 @@ class Pengajuan extends CI_Controller
 
     public function add()
     {
-        $data1 = $this->db->query("SELECT max(substring(kode_transport, 6)) as maxKode FROM transport ")->row();
+        $data['judul'] = 'data';
+        $data['krit'] = $this->model->krit()->result();
+        $data['daerah'] = $this->model->daerah()->result();
+        // $data['user'] = $this->Auth_model->current_user();
+
+        $this->load->view('head', $data);
+        $this->load->view('pengajuan_add', $data);
+        $this->load->view('foot');
+    }
+
+    public function edit($kode)
+    {
+        $data['judul'] = 'pengajuan';
+        $data['data'] = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
+        $data['krit'] = $this->model->krit()->result();
+        $data['daerah'] = $this->model->daerah()->result();
+        // $data['user'] = $this->Auth_model->current_user();
+
+        $this->load->view('head', $data);
+        $this->load->view('pengajuan_edit', $data);
+        $this->load->view('foot');
+    }
+
+    public function saveAdd()
+    {
+        $data1 = $this->db->query("SELECT max(substring(kode_pengajuan, 6)) as maxKode FROM pengajuan ")->row();
         $kodeBarang = $data1->maxKode == null ? '0000' : $data1->maxKode;
         $noUrut = (int) substr($kodeBarang, 0, 4);
         $noUrut++;
-        $char = "TRANS";
+        $char = "NMKS";
         $kodeBarang = $char . sprintf("%04s", $noUrut);
         $kode = htmlspecialchars($kodeBarang);
 
+        $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('transport', true))->row();
+        $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
+
         $data = [
-            'kode_transport' => $kode,
-            'daerah' => $this->input->post('daerah', true),
-            'nominal' => rmRp($this->input->post('nominal', true)),
-            'sopir' => rmRp($this->input->post('sopir', true)),
-            'tahun' => '2022/2023'
+            'kode_pengajuan' => $kode,
+            'nama' => $this->input->post('nama', true),
+            'kriteria' => $kriteria->nama,
+            'nom_kriteria' => $kriteria->nominal,
+            'daerah' => $transport->daerah,
+            'transport' => $transport->nominal,
+            'sopir' => $transport->sopir,
+            'tgl_jalan' => $this->input->post('tgl_jalan', true),
+            'tahun' => '2022/2023',
+            'status' => 'belum',
+            'created' => date('Y-m-d H:i')
         ];
 
-        $this->model->simpan('transport', $data);
+        $this->model->simpan('pengajuan', $data);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Data Berhasil Ditambahkan');
-            redirect('transport');
+            redirect('pengajuan');
         } else {
             $this->session->set_flashdata('error', 'Tambah Data Gagal');
-            redirect('transport');
+            redirect('pengajuan');
         }
     }
 
-    public function edit()
+    public function editAct()
     {
-        $where = $this->input->post('kode_transport', true);
+        $where = $this->input->post('kode_pengajuan', true);
+        $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('transport', true))->row();
+        $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
+
         $data = [
-            'daerah' => $this->input->post('daerah', true),
-            'nominal' => rmRp($this->input->post('nominal', true)),
-            'sopir' => rmRp($this->input->post('sopir', true))
+            'nama' => $this->input->post('nama', true),
+            'kriteria' => $kriteria->nama,
+            'nom_kriteria' => $kriteria->nominal,
+            'daerah' => $transport->daerah,
+            'transport' => $transport->nominal,
+            'sopir' => $transport->sopir,
+            'tgl_jalan' => $this->input->post('tgl_jalan', true)
         ];
 
-        $this->model->edit('transport', $data, $where);
+        $this->model->edit('pengajuan', $data, $where);
+
         if ($this->db->affected_rows() > 0) {
-            $this->session->set_flashdata('ok', 'Update Data Berhasil ');
-            redirect('transport');
+            $this->session->set_flashdata('ok', 'Data Berhasil Diperbarui');
+            redirect('pengajuan');
         } else {
-            $this->session->set_flashdata('error', 'Edit Data Gagal');
-            redirect('transport');
+            $this->session->set_flashdata('error', 'Perbaruan Data Gagal');
+            redirect('pengajuan');
+        }
+    }
+
+    public function ajukan($kode)
+    {
+        $data = ['status' => 'proses'];
+        $this->model->edit('pengajuan', $data, $kode);
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('ok', 'Pengajuan Berhasil. Silahkan menunggu verval dari accounting!');
+            redirect('pengajuan');
+        } else {
+            $this->session->set_flashdata('error', 'Hapus Data Gagal');
+            redirect('pengajuan');
         }
     }
 
     public function del($kode)
     {
-        $this->model->hapus('transport', $kode);
+        $this->model->hapus('pengajuan', $kode);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Hapus Data Berhasil ');
-            redirect('transport');
+            redirect('pengajuan');
         } else {
             $this->session->set_flashdata('error', 'Hapus Data Gagal');
-            redirect('transport');
+            redirect('pengajuan');
         }
     }
 }

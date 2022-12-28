@@ -17,17 +17,25 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
+                        <?php if ($this->session->flashdata('ok')) : ?>
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-check"></i> <?= $this->session->flashdata('ok') ?>
+                        </div>
+                        <?php endif; ?>
+                        <?php if ($this->session->flashdata('error')) : ?>
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-check"></i> <?= $this->session->flashdata('error') ?>
+                        </div>
+                        <?php endif; ?>
                         <h3 class="box-title">Data User</h3>
-                        <button class="btn btn-sm btn-success pull-right" data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus-circle"></i> Tambah
+                        <button class="btn btn-sm btn-success pull-right" data-toggle="modal"
+                            data-target="#modal-default"><i class="fa fa-plus-circle"></i> Tambah
                             Data</button>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <?php if ($this->session->flashdata('ok')) : ?>
-                            <p class="bg-success"><?= $this->session->flashdata('ok') ?></p>
-                        <?php endif; ?>
-                        <?php if ($this->session->flashdata('error')) : ?>
-                            <p class="bg-danger"><?= $this->session->flashdata('error') ?></p>
-                        <?php endif; ?>
+
                         <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
@@ -44,17 +52,19 @@
                                     <?php
                                     $no = 1;
                                     foreach ($data as $dt) : ?>
-                                        <tr>
-                                            <td><?= $no++; ?></td>
-                                            <td><?= $dt->nama; ?></td>
-                                            <td><?= $dt->username; ?></td>
-                                            <td><?= $dt->level; ?></td>
-                                            <td><?= $dt->aktif; ?></td>
-                                            <td>
-                                                <!-- <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#<?= $dt->id_user ?>">Edit</button> -->
-                                                <a href="<?= base_url('user/del/' . $dt->id_user); ?>" onclick="return confirm('Yakin akan dihpaus ?')" class="btn btn-danger btn-xs">Hapus</a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td><?= $no++; ?></td>
+                                        <td><?= $dt->nama; ?></td>
+                                        <td><?= $dt->username; ?></td>
+                                        <td><?= $dt->level; ?></td>
+                                        <td><?= $dt->aktif; ?></td>
+                                        <td>
+                                            <!-- <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#<?= $dt->id_user ?>">Edit</button> -->
+                                            <a href="<?= base_url('user/del/' . $dt->id_user); ?>"
+                                                onclick="return confirm('Yakin akan dihpaus ?')"
+                                                class="btn btn-danger btn-xs">Hapus</a>
+                                        </td>
+                                    </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
