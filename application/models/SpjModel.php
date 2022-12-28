@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class PengajuanModel extends CI_Model
+class SpjModel extends CI_Model
 {
     function data()
     {
-        return $this->db->get('pengajuan');
+        return $this->db->get('spj');
     }
 
     function verval()

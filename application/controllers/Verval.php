@@ -38,4 +38,17 @@ class Verval extends CI_Controller
 			redirect('verval');
 		}
 	}
+
+	public function tolak($kode)
+	{
+		$data = ['status' => 'ditolak'];
+		$this->model->edit('pengajuan', $data, $kode);
+		if ($this->db->affected_rows() > 0) {
+			$this->session->set_flashdata('ok', 'Pengajuan Ditolak');
+			redirect('verval');
+		} else {
+			$this->session->set_flashdata('error', 'Persetujuan Data Gagal');
+			redirect('verval');
+		}
+	}
 }

@@ -68,7 +68,7 @@
                                             <?= $dt->status === 'selesai' ? "<span class='badge bg-blue'>Selesai</span>" : "" ?>
                                         </td>
                                         <td>
-                                            <?php if ($dt->status === 'belum') { ?>
+                                            <?php if ($dt->status === 'belum' || $dt->status === 'ditolak') { ?>
                                             <a href="<?= base_url('pengajuan/ajukan/' . $dt->kode_pengajuan); ?>"
                                                 onclick="return confirm('Yakin akan diajukan ?')"
                                                 class="btn btn-success btn-xs">Ajukan</a> |

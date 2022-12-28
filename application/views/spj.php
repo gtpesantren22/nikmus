@@ -2,12 +2,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            List Data Pengajuan
+            List Data SPJ Pengajuan
             <small>Data</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Data</a></li>
-            <li class="active">Data Pengajuan Nikmus</li>
+            <li class="active">SPJ Data Pengajuan Nikmus</li>
         </ol>
     </section>
 
@@ -30,6 +30,9 @@
                         </div>
                         <?php endif; ?>
                         <h3 class="box-title">Data Pengajuan</h3>
+                        <!-- <a href="<?= base_url('pengajuan/add'); ?>" class="btn btn-sm btn-success pull-right"><i
+                                class="fa fa-plus-circle"></i> Tambah
+                            Data</a> -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">
@@ -38,10 +41,8 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Pengajuan</th>
-                                        <th>Tujuan</th>
-                                        <th>Kriteria</th>
-                                        <th>Daerah</th>
-                                        <th>Nominal</th>
+                                        <th>Tanggal Upload</th>
+                                        <th>Berkas</th>
                                         <th>Status</th>
                                         <th>#</th>
                                     </tr>
@@ -53,27 +54,25 @@
                                     <tr>
                                         <td><?= $no++; ?></td>
                                         <td><?= $dt->kode_pengajuan; ?></td>
-                                        <td><?= $dt->nama; ?></td>
-                                        <td><?= $dt->kriteria; ?></td>
-                                        <td><?= $dt->daerah; ?></td>
-                                        <td><?= rupiah($dt->nom_kriteria + $dt->transport + $dt->sopir); ?></td>
+                                        <td><?= $dt->tgl_upload; ?></td>
+                                        <td><?= $dt->berkas; ?></td>
                                         <td>
                                             <?= $dt->status === 'belum' ? "<span class='badge bg-red'>Belum</span>" : "" ?>
                                             <?= $dt->status === 'proses' ? "<span class='badge bg-yellow'>Proses</span>" : "" ?>
                                             <?= $dt->status === 'ditolak' ? "<span class='badge bg-red'>Ditolak</span>" : "" ?>
-                                            <?= $dt->status === 'disetujui' ? "<span class='badge bg-green'>Disetujui</span>" : "" ?>
-                                            <?= $dt->status === 'selesai' ? "<span class='badge bg-blue'>Selesai</span>" : "" ?>
+                                            <?= $dt->status === 'selesai' ? "<span class='badge bg-green'>Selesai</span>" : "" ?>
                                         </td>
                                         <td>
+                                            <?php if ($dt->status === 'belum' || $dt->status === 'ditolak') { ?>
+                                            <a href="<?= base_url('spj/edit/' . $dt->kode_pengajuan); ?>"
+                                                class="btn btn-success btn-xs">Edit SPJ</a>
+                                            <!-- <a href="<?= base_url('spj/edit/' . $dt->kode_pengajuan) ?>"
+                                                class="btn btn-warning btn-xs">Edit</a>
+                                            <a href="<?= base_url('spj/del/' . $dt->kode_pengajuan); ?>"
+                                                onclick="return confirm('Yakin akan dihpaus ?')"
+                                                class="btn btn-danger btn-xs">Hapus</a> -->
+                                            <?php }  ?>
 
-                                            <?php if ($dt->status === 'proses') { ?>
-                                            <a href="<?= base_url('verval/setujui/' . $dt->kode_pengajuan); ?>"
-                                                onclick="return confirm('Yakin akan disetujui ?')"
-                                                class="btn btn-success btn-xs">Setujui</a> |
-                                            <a href="<?= base_url('verval/tolak/' . $dt->kode_pengajuan); ?>"
-                                                onclick="return confirm('Yakin akan ditolak ?')"
-                                                class="btn btn-danger btn-xs">Tolak</a>
-                                            <?php } ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

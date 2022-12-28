@@ -144,8 +144,8 @@
                             <li class="<?= $judul === 'cair' ? 'active' : '' ?>"><a href="<?= base_url('pencairan') ?>"><i class="fa fa-circle-o"></i> Pencairan</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="">
+                    <li class="<?= $judul === 'spj' ? 'active' : '' ?>">
+                        <a href="<?= base_url('spj') ?>">
                             <i class="fa fa-file"></i> <span>SPJ</span>
                         </a>
                     </li>

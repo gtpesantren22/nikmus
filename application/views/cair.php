@@ -66,13 +66,9 @@
                                         </td>
                                         <td>
 
-                                            <?php if ($dt->status === 'proses') { ?>
-                                            <a href="<?= base_url('verval/setujui/' . $dt->kode_pengajuan); ?>"
-                                                onclick="return confirm('Yakin akan disetujui ?')"
-                                                class="btn btn-success btn-xs">Setujui</a> |
-                                            <a href="<?= base_url('verval/tolak/' . $dt->kode_pengajuan); ?>"
-                                                onclick="return confirm('Yakin akan ditolak ?')"
-                                                class="btn btn-danger btn-xs">Tolak</a>
+                                            <?php if ($dt->status === 'disetujui') { ?>
+                                            <a href="<?= base_url('pencairan/cek/' . $dt->kode_pengajuan); ?>"
+                                                class="btn btn-success btn-xs"><i class="fa fa-search"></i> Cek</a>
                                             <?php } ?>
                                         </td>
                                     </tr>
