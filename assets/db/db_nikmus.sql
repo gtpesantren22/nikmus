@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Des 2022 pada 08.04
--- Versi server: 10.4.25-MariaDB
--- Versi PHP: 8.1.10
+-- Generation Time: Dec 29, 2022 at 06:50 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kriteria`
+-- Table structure for table `kriteria`
 --
 
 CREATE TABLE `kriteria` (
@@ -36,7 +36,7 @@ CREATE TABLE `kriteria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `kriteria`
+-- Dumping data for table `kriteria`
 --
 
 INSERT INTO `kriteria` (`id_kriteria`, `kode_kriteria`, `nama`, `nominal`, `tahun`) VALUES
@@ -46,7 +46,29 @@ INSERT INTO `kriteria` (`id_kriteria`, `kode_kriteria`, `nama`, `nominal`, `tahu
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengajuan`
+-- Table structure for table `pencairan`
+--
+
+CREATE TABLE `pencairan` (
+  `id_pencairan` int(11) NOT NULL,
+  `kode_pengajuan` varchar(15) NOT NULL,
+  `nom_cair` decimal(20,0) NOT NULL,
+  `penerima` varchar(25) NOT NULL,
+  `tgl_cair` date NOT NULL,
+  `kasir` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pencairan`
+--
+
+INSERT INTO `pencairan` (`id_pencairan`, `kode_pengajuan`, `nom_cair`, `penerima`, `tgl_cair`, `kasir`) VALUES
+(1, 'NMKS0001', '380000', 'Uts. Main', '2022-12-29', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pengajuan`
 --
 
 CREATE TABLE `pengajuan` (
@@ -65,16 +87,16 @@ CREATE TABLE `pengajuan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `pengajuan`
+-- Dumping data for table `pengajuan`
 --
 
 INSERT INTO `pengajuan` (`id_pengajuan`, `kode_pengajuan`, `nama`, `kriteria`, `nom_kriteria`, `daerah`, `transport`, `sopir`, `tgl_jalan`, `tahun`, `status`, `created`) VALUES
-(1, 'NMKS0001', 'Andika Mandai', 'Santri Sakit Opname', '250000', 'Probolinggo', '100000', '30000', '2022-12-28', '2022/2023', 'disetujui', '2022-12-27 15:43:00');
+(1, 'NMKS0001', 'Andika Mandai', 'Santri Sakit Opname', '250000', 'Probolinggo', '100000', '30000', '2022-12-28', '2022/2023', 'selesai', '2022-12-27 15:43:00');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `spj`
+-- Table structure for table `spj`
 --
 
 CREATE TABLE `spj` (
@@ -86,10 +108,17 @@ CREATE TABLE `spj` (
   `tahun` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `spj`
+--
+
+INSERT INTO `spj` (`id_spj`, `kode_pengajuan`, `tgl_upload`, `status`, `berkas`, `tahun`) VALUES
+(1, 'NMKS0001', '0000-00-00', 'belum', '', '2022/2023');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_santri`
+-- Table structure for table `tb_santri`
 --
 
 CREATE TABLE `tb_santri` (
@@ -153,7 +182,7 @@ CREATE TABLE `tb_santri` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_santri`
+-- Dumping data for table `tb_santri`
 --
 
 INSERT INTO `tb_santri` (`id_santri`, `nis`, `nisn`, `nik`, `no_kk`, `email`, `nama`, `tempat`, `tanggal`, `jkl`, `jln`, `rt`, `rw`, `kd_pos`, `desa`, `kec`, `kab`, `prov`, `k_formal`, `t_formal`, `r_formal`, `jurusan`, `k_madin`, `r_madin`, `komplek`, `kamar`, `anak_ke`, `jml_sdr`, `bapak`, `nik_a`, `tempat_a`, `tanggal_a`, `pend_a`, `pkj_a`, `status_a`, `foto_a`, `ibu`, `nik_i`, `tempat_i`, `tanggal_i`, `pend_i`, `pkj_i`, `status_i`, `foto_i`, `wali`, `nik_w`, `tempat_w`, `tanggal_w`, `pend_w`, `pkj_w`, `hp`, `pass`, `foto`, `stts`, `t_kos`, `ket`, `aktif`) VALUES
@@ -2081,7 +2110,7 @@ INSERT INTO `tb_santri` (`id_santri`, `nis`, `nisn`, `nik`, `no_kk`, `email`, `n
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `transport`
+-- Table structure for table `transport`
 --
 
 CREATE TABLE `transport` (
@@ -2094,7 +2123,7 @@ CREATE TABLE `transport` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `transport`
+-- Dumping data for table `transport`
 --
 
 INSERT INTO `transport` (`id_transport`, `kode_transport`, `daerah`, `nominal`, `sopir`, `tahun`) VALUES
@@ -2104,7 +2133,7 @@ INSERT INTO `transport` (`id_transport`, `kode_transport`, `daerah`, `nominal`, 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -2117,7 +2146,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `nama`, `username`, `password`, `level`, `aktif`) VALUES
@@ -2129,77 +2158,89 @@ INSERT INTO `user` (`id_user`, `nama`, `username`, `password`, `level`, `aktif`)
 --
 
 --
--- Indeks untuk tabel `kriteria`
+-- Indexes for table `kriteria`
 --
 ALTER TABLE `kriteria`
   ADD PRIMARY KEY (`id_kriteria`);
 
 --
--- Indeks untuk tabel `pengajuan`
+-- Indexes for table `pencairan`
+--
+ALTER TABLE `pencairan`
+  ADD PRIMARY KEY (`id_pencairan`);
+
+--
+-- Indexes for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
   ADD PRIMARY KEY (`id_pengajuan`);
 
 --
--- Indeks untuk tabel `spj`
+-- Indexes for table `spj`
 --
 ALTER TABLE `spj`
   ADD PRIMARY KEY (`id_spj`);
 
 --
--- Indeks untuk tabel `tb_santri`
+-- Indexes for table `tb_santri`
 --
 ALTER TABLE `tb_santri`
   ADD PRIMARY KEY (`id_santri`);
 
 --
--- Indeks untuk tabel `transport`
+-- Indexes for table `transport`
 --
 ALTER TABLE `transport`
   ADD PRIMARY KEY (`id_transport`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `kriteria`
+-- AUTO_INCREMENT for table `kriteria`
 --
 ALTER TABLE `kriteria`
   MODIFY `id_kriteria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `pengajuan`
+-- AUTO_INCREMENT for table `pencairan`
+--
+ALTER TABLE `pencairan`
+  MODIFY `id_pencairan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
   MODIFY `id_pengajuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `spj`
+-- AUTO_INCREMENT for table `spj`
 --
 ALTER TABLE `spj`
-  MODIFY `id_spj` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_spj` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_santri`
+-- AUTO_INCREMENT for table `tb_santri`
 --
 ALTER TABLE `tb_santri`
   MODIFY `id_santri` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1909;
 
 --
--- AUTO_INCREMENT untuk tabel `transport`
+-- AUTO_INCREMENT for table `transport`
 --
 ALTER TABLE `transport`
   MODIFY `id_transport` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
