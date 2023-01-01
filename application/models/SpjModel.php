@@ -5,6 +5,7 @@ class SpjModel extends CI_Model
 {
     function data()
     {
+        $this->db->order_by('kode_pengajuan', 'ASC');
         return $this->db->get('spj');
     }
 
@@ -58,5 +59,12 @@ class SpjModel extends CI_Model
     {
         $this->db->where('kode_pengajuan', $where);
         $this->db->delete($table);
+    }
+
+    function getFile($kode)
+    {
+        $this->db->where('kode_pengajuan', $kode);
+        $this->db->from('spj');
+        return $this->db->get();
     }
 }

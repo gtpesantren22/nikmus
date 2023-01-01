@@ -7,19 +7,26 @@ class Transport extends CI_Controller
     {
         parent::__construct();
         $this->load->model('TransModel', 'model');
-        // $this->load->model('Auth_model');
+        $this->load->model('Auth_model');
 
-        // $user = $this->Auth_model->current_user();
-        // if (!$this->Auth_model->current_user() || $user->level != 'admin' && $user->level != 'bunda') {
-        // 	redirect('login/logout');
-        // }
+        $user = $this->Auth_model->current_user();
+        if (!$this->Auth_model->current_user()) {
+            redirect('login/logout');
+        } elseif ($user->level != 'account') {
+            echo "
+            <script>
+            alert('Maaf. Data tidak dapat megakses halaman ini');
+            window.location = '" . base_url('welcome') . "';
+            </script>
+            ";
+        }
     }
 
     public function index()
     {
         $data['judul'] = 'transport';
         $data['data'] = $this->model->data()->result();
-        // $data['user'] = $this->Auth_model->current_user();
+        $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
         $this->load->view('trans', $data);

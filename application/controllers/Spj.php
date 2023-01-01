@@ -7,19 +7,26 @@ class Spj extends CI_Controller
     {
         parent::__construct();
         $this->load->model('SpjModel', 'model');
-        // $this->load->model('Auth_model');
+        $this->load->model('Auth_model');
 
-        // $user = $this->Auth_model->current_user();
-        // if (!$this->Auth_model->current_user() || $user->level != 'admin' && $user->level != 'bunda') {
-        // 	redirect('login/logout');
-        // }
+        $user = $this->Auth_model->current_user();
+        if (!$this->Auth_model->current_user()) {
+            redirect('login/logout');
+        } elseif ($user->level != 'account' && $user->level != 'humas') {
+            echo "
+            <script>
+            alert('Maaf. Data tidak dapat megakses halaman ini');
+            window.location = '" . base_url('welcome') . "';
+            </script>
+            ";
+        }
     }
 
     public function index()
     {
         $data['judul'] = 'spj';
         $data['data'] = $this->model->data()->result();
-        // $data['user'] = $this->Auth_model->current_user();
+        $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
         $this->load->view('spj', $data);
@@ -31,7 +38,7 @@ class Spj extends CI_Controller
         $data['judul'] = 'spj';
         $data['krit'] = $this->model->krit()->result();
         $data['daerah'] = $this->model->daerah()->result();
-        // $data['user'] = $this->Auth_model->current_user();
+        $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_add', $data);
@@ -44,7 +51,7 @@ class Spj extends CI_Controller
         $data['data'] = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
         $data['krit'] = $this->model->krit()->result();
         $data['daerah'] = $this->model->daerah()->result();
-        // $data['user'] = $this->Auth_model->current_user();
+        $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_edit', $data);
@@ -78,6 +85,7 @@ class Spj extends CI_Controller
             'created' => date('Y-m-d H:i')
         ];
 
+
         $this->model->simpan('pengajuan', $data);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Data Berhasil Ditambahkan');
@@ -91,33 +99,59 @@ class Spj extends CI_Controller
     public function editAct()
     {
         $where = $this->input->post('kode_pengajuan', true);
-        $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('transport', true))->row();
-        $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
+        $lama = $this->input->post('file_lama', true);
 
-        $data = [
-            'nama' => $this->input->post('nama', true),
-            'kriteria' => $kriteria->nama,
-            'nom_kriteria' => $kriteria->nominal,
-            'daerah' => $transport->daerah,
-            'transport' => $transport->nominal,
-            'sopir' => $transport->sopir,
-            'tgl_jalan' => $this->input->post('tgl_jalan', true)
-        ];
+        $config['upload_path']          = FCPATH . '/assets/berkas/';
+        $config['allowed_types']        = 'pdf';
+        $config['file_name']            = 'SPJ-' . $where . random(3);
+        $config['overwrite']            = true;
+        $config['max_size']             = 0;
 
-        $this->model->edit('pengajuan', $data, $where);
+        $this->load->library('upload', $config);
 
-        if ($this->db->affected_rows() > 0) {
-            $this->session->set_flashdata('ok', 'Data Berhasil Diperbarui');
-            redirect('pengajuan');
+        if (!$this->upload->do_upload('berkas')) {
+            $data['error'] = $this->upload->display_errors();
         } else {
-            $this->session->set_flashdata('error', 'Perbaruan Data Gagal');
-            redirect('pengajuan');
+            if ($lama != '') {
+                unlink('/assets/berkas/' . $lama);
+            }
+            $uploaded_data = $this->upload->data();
+            $new_data = [
+                'berkas' => $uploaded_data['file_name'],
+                'tgl_upload' => $this->input->post('tgl_upload', true),
+                'status' => 'proses'
+            ];
+            $data4 = [
+                'kode_pengajuan' => $where,
+                'status' => 'SPJ',
+                'ket' => 'Upload File SPJ oleh Humas Pesantren',
+                'oleh' => 'Humas Pesantren',
+                'at' => date('Y-m-d H:i')
+            ];
+
+            $this->model->edit('spj', $new_data, $where);
+            $this->model->simpan('history', $data4);
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('ok', 'SPJ Berhasil di ajukan');
+                redirect('spj');
+            } else {
+                $this->session->set_flashdata('error', 'Pengajuana Data Gagal');
+                redirect('spj');
+            }
         }
     }
 
     public function ajukan($kode)
     {
         $data = ['status' => 'proses'];
+        $data4 = [
+            'kode_pengajuan' => $kode,
+            'status' => 'SPJ',
+            'ket' => 'SPJ diajukan oleh Humas Pesantren kepada Accounting',
+            'oleh' => 'Humas Pesantren',
+            'at' => date('Y-m-d H:i')
+        ];
+        $this->model->simpan('history', $data4);
         $this->model->edit('pengajuan', $data, $kode);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Pengajuan Berhasil. Silahkan menunggu verval dari accounting!');
@@ -137,6 +171,56 @@ class Spj extends CI_Controller
         } else {
             $this->session->set_flashdata('error', 'Hapus Data Gagal');
             redirect('pengajuan');
+        }
+    }
+
+    public function down($kode)
+    {
+        $file = $this->model->getFile($kode)->row();
+        force_download('/assets/berkas/' . $file->berkas, NULL);
+        // echo base_url('/assets/berkas/' . $file->berkas);
+        // redirect('spj');
+    }
+
+    public function setujui($kode)
+    {
+        $data = ['status' => 'selesai'];
+        $data4 = [
+            'kode_pengajuan' => $kode,
+            'status' => 'SPJ',
+            'ket' => 'SPJ disetujui oleh Accounting',
+            'oleh' => 'Accounting',
+            'at' => date('Y-m-d H:i')
+        ];
+        $this->model->simpan('history', $data4);
+        $this->model->edit('spj', $data, $kode);
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('ok', 'SPJ sudah Disetujui!');
+            redirect('spj');
+        } else {
+            $this->session->set_flashdata('error', 'Persetujuan Data Gagal');
+            redirect('spj');
+        }
+    }
+
+    public function tolak($kode)
+    {
+        $data = ['status' => 'ditolak'];
+        $data4 = [
+            'kode_pengajuan' => $kode,
+            'status' => 'SPJ',
+            'ket' => 'SPJ ditolak oleh Accounting dengan catatan : ',
+            'oleh' => 'Accounting',
+            'at' => date('Y-m-d H:i')
+        ];
+        $this->model->simpan('history', $data4);
+        $this->model->edit('spj', $data, $kode);
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('ok', 'SPJ Ditolak');
+            redirect('spj');
+        } else {
+            $this->session->set_flashdata('error', 'Persetujuan Data Gagal');
+            redirect('spj');
         }
     }
 }

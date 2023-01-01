@@ -7,19 +7,26 @@ class Verval extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('PengajuanModel', 'model');
-		// $this->load->model('Auth_model');
+		$this->load->model('Auth_model');
 
-		// $user = $this->Auth_model->current_user();
-		// if (!$this->Auth_model->current_user() || $user->level != 'admin' && $user->level != 'bunda') {
-		// 	redirect('login/logout');
-		// }
+		$user = $this->Auth_model->current_user();
+		if (!$this->Auth_model->current_user()) {
+			redirect('login/logout');
+		} elseif ($user->level != 'account') {
+			echo "
+            <script>
+            alert('Maaf. Data tidak dapat megakses halaman ini');
+            window.location = '" . base_url('welcome') . "';
+            </script>
+            ";
+		}
 	}
 
 	public function index()
 	{
 		$data['judul'] = 'verval';
 		$data['data'] = $this->model->verval()->result();
-		// $data['user'] = $this->Auth_model->current_user();
+		$data['user'] = $this->Auth_model->current_user();
 
 		$this->load->view('head', $data);
 		$this->load->view('verval', $data);
@@ -29,6 +36,14 @@ class Verval extends CI_Controller
 	public function setujui($kode)
 	{
 		$data = ['status' => 'disetujui'];
+		$data4 = [
+			'kode_pengajuan' => $kode,
+			'status' => 'Pengajuan',
+			'ket' => 'Pengajuan disetujui oleh Accounting',
+			'oleh' => 'Accounting',
+			'at' => date('Y-m-d H:i')
+		];
+		$this->model->simpan('history', $data4);
 		$this->model->edit('pengajuan', $data, $kode);
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('ok', 'Pengajuan Disetujui. Silahkan menghubungi admin pencairan untuk pencairan pengajuan!');
@@ -42,6 +57,14 @@ class Verval extends CI_Controller
 	public function tolak($kode)
 	{
 		$data = ['status' => 'ditolak'];
+		$data4 = [
+			'kode_pengajuan' => $kode,
+			'status' => 'Pengajuan',
+			'ket' => 'Pengajuan ditolak oleh Accounting dengan catatan : ',
+			'oleh' => 'Accounting',
+			'at' => date('Y-m-d H:i')
+		];
+		$this->model->simpan('history', $data4);
 		$this->model->edit('pengajuan', $data, $kode);
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('ok', 'Pengajuan Ditolak');

@@ -7,19 +7,19 @@ class Santri extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('SantriModel', 'model');
-		// $this->load->model('Auth_model');
+		$this->load->model('Auth_model');
 
-		// $user = $this->Auth_model->current_user();
-		// if (!$this->Auth_model->current_user() || $user->level != 'admin' && $user->level != 'bunda') {
-		// 	redirect('login/logout');
-		// }
+		$user = $this->Auth_model->current_user();
+		if (!$this->Auth_model->current_user()) {
+			redirect('login/logout');
+		}
 	}
 
 	public function index()
 	{
 		$data['judul'] = 'santri';
 		$data['baru'] = $this->model->baru()->result();
-		// $data['user'] = $this->Auth_model->current_user();
+		$data['user'] = $this->Auth_model->current_user();
 
 		$this->load->view('head', $data);
 		$this->load->view('santri', $data);

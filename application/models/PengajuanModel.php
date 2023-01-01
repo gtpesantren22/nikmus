@@ -5,6 +5,7 @@ class PengajuanModel extends CI_Model
 {
     function data()
     {
+        $this->db->order_by('kode_pengajuan', 'ASC');
         return $this->db->get('pengajuan');
     }
 

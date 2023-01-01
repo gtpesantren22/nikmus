@@ -7,19 +7,26 @@ class Pengajuan extends CI_Controller
     {
         parent::__construct();
         $this->load->model('PengajuanModel', 'model');
-        // $this->load->model('Auth_model');
+        $this->load->model('Auth_model');
 
-        // $user = $this->Auth_model->current_user();
-        // if (!$this->Auth_model->current_user() || $user->level != 'admin' && $user->level != 'bunda') {
-        // 	redirect('login/logout');
-        // }
+        $user = $this->Auth_model->current_user();
+        if (!$this->Auth_model->current_user()) {
+            redirect('login/logout');
+        } elseif ($user->level != 'account' && $user->level != 'humas') {
+            echo "
+            <script>
+            alert('Maaf. Data tidak dapat megakses halaman ini');
+            window.location = '" . base_url('welcome') . "';
+            </script>
+            ";
+        }
     }
 
     public function index()
     {
         $data['judul'] = 'data';
         $data['data'] = $this->model->data()->result();
-        // $data['user'] = $this->Auth_model->current_user();
+        $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan', $data);
@@ -31,7 +38,7 @@ class Pengajuan extends CI_Controller
         $data['judul'] = 'data';
         $data['krit'] = $this->model->krit()->result();
         $data['daerah'] = $this->model->daerah()->result();
-        // $data['user'] = $this->Auth_model->current_user();
+        $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_add', $data);
@@ -44,7 +51,7 @@ class Pengajuan extends CI_Controller
         $data['data'] = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
         $data['krit'] = $this->model->krit()->result();
         $data['daerah'] = $this->model->daerah()->result();
-        // $data['user'] = $this->Auth_model->current_user();
+        $data['user'] = $this->Auth_model->current_user();
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_edit', $data);
@@ -57,7 +64,7 @@ class Pengajuan extends CI_Controller
         $kodeBarang = $data1->maxKode == null ? '0000' : $data1->maxKode;
         $noUrut = (int) substr($kodeBarang, 0, 4);
         $noUrut++;
-        $char = "NMKS";
+        $char = "NKMS";
         $kodeBarang = $char . sprintf("%04s", $noUrut);
         $kode = htmlspecialchars($kodeBarang);
 
@@ -77,8 +84,16 @@ class Pengajuan extends CI_Controller
             'status' => 'belum',
             'created' => date('Y-m-d H:i')
         ];
+        $data4 = [
+            'kode_pengajuan' => $kode,
+            'status' => 'Pengajuan',
+            'ket' => 'Buat Pengajuan Baru',
+            'oleh' => 'Humas Pesantren',
+            'at' => date('Y-m-d H:i')
+        ];
 
         $this->model->simpan('pengajuan', $data);
+        $this->model->simpan('history', $data4);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Data Berhasil Ditambahkan');
             redirect('pengajuan');
@@ -118,7 +133,15 @@ class Pengajuan extends CI_Controller
     public function ajukan($kode)
     {
         $data = ['status' => 'proses'];
+        $data4 = [
+            'kode_pengajuan' => $kode,
+            'status' => 'Pengajuan',
+            'ket' => 'Pengajuan Nikmus Diajukan kepada Accounting',
+            'oleh' => 'Humas Pesantren',
+            'at' => date('Y-m-d H:i')
+        ];
         $this->model->edit('pengajuan', $data, $kode);
+        $this->model->simpan('history', $data4);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Pengajuan Berhasil. Silahkan menunggu verval dari accounting!');
             redirect('pengajuan');

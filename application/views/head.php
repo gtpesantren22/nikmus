@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Aplikasi Sekretaris</title>
+    <title>Aplikasi NIKMUS Pesantren</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -65,16 +65,18 @@
 
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Nama Admin</span>
+                                <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="user-image"
+                                    alt="User Image">
+                                <span class="hidden-xs"><?= $user->nama; ?></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="img-circle" alt="User Image">
+                                    <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="img-circle"
+                                        alt="User Image">
                                     <p>
-                                        Nama Operator - Admin
-                                        <small>Administrator</small>
+                                        <?= $user->nama; ?>
+                                        <small><?= $user->level; ?></small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -83,13 +85,15 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="logout.php" onclick="return confirm('Yakin akan keluar ?')" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="<?= base_url('login/logout'); ?>"
+                                            onclick="return confirm('Yakin akan keluar ?')"
+                                            class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
                         </li>
                         <li class="dropdown user user-menu">
-                            <a href="logout.php" onclick="return confirm('Yakin akan keluar ?')" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="<?= base_url('login/logout'); ?>" onclick="return confirm('Yakin akan keluar ?')">
                                 <i class="fa fa-power-off"></i>
                             </a>
                         </li>
@@ -107,7 +111,7 @@
                         <img src="<?= base_url('assets/') ?>dist/img/avatar2.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Nama Admin</p>
+                        <p><?= $user->nama; ?></p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -119,34 +123,52 @@
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="treeview <?= $judul === 'santri' || $judul === 'transport' || $judul === 'kriteria' || $judul === 'user' ? 'active' : '' ?>">
+                    <li
+                        class="treeview <?= $judul === 'santri' || $judul === 'transport' || $judul === 'kriteria' || $judul === 'user' ? 'active' : '' ?>">
                         <a href="#">
-                            <i class="fa fa-users"></i> <span>Master Data</span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-users"></i> <span>Master Data</span> <i
+                                class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="<?= $judul === 'santri' ? 'active' : '' ?>"><a href="<?= base_url('santri') ?>"><i class="fa fa-circle-o"></i> Data
+                            <li class="<?= $judul === 'santri' ? 'active' : '' ?>"><a
+                                    href="<?= base_url('santri') ?>"><i class="fa fa-circle-o"></i> Data
                                     Santri</a></li>
-                            <li class="<?= $judul === 'transport' ? 'active' : '' ?>"><a href="<?= base_url('transport') ?>"><i class="fa fa-circle-o"></i> Data
+                            <li class="<?= $judul === 'transport' ? 'active' : '' ?>"><a
+                                    href="<?= base_url('transport') ?>"><i class="fa fa-circle-o"></i> Data
                                     Transportasi</a></li>
-                            <li class="<?= $judul === 'kriteria' ? 'active' : '' ?>"><a href="<?= base_url('kriteria') ?>"><i class="fa fa-circle-o"></i> Data
+                            <li class="<?= $judul === 'kriteria' ? 'active' : '' ?>"><a
+                                    href="<?= base_url('kriteria') ?>"><i class="fa fa-circle-o"></i> Data
                                     Kriteria</a></li>
-                            <li class="<?= $judul === 'user' ? 'active' : '' ?>"><a href="<?= base_url('user') ?>"><i class="fa fa-circle-o"></i> Data User</a>
+                            <li class="<?= $judul === 'user' ? 'active' : '' ?>"><a href="<?= base_url('user') ?>"><i
+                                        class="fa fa-circle-o"></i> Data User</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="treeview <?= $judul === 'data' || $judul === 'verval' || $judul === 'cair' ? 'active' : '' ?>">
+                    <li
+                        class="treeview <?= $judul === 'data' || $judul === 'verval' || $judul === 'cair' ? 'active' : '' ?>">
                         <a href="#">
-                            <i class="fa fa-plus-circle"></i> <span>Pengajuan</span> <i class="fa fa-angle-left pull-right"></i>
+                            <i class="fa fa-plus-circle"></i> <span>Pengajuan</span> <i
+                                class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="<?= $judul === 'data' ? 'active' : '' ?>"><a href="<?= base_url('pengajuan') ?>"><i class="fa fa-circle-o"></i>Data Pengajuan</a></li>
-                            <li class="<?= $judul === 'verval' ? 'active' : '' ?>"><a href="<?= base_url('verval') ?>"><i class="fa fa-circle-o"></i> Verval</a></li>
-                            <li class="<?= $judul === 'cair' ? 'active' : '' ?>"><a href="<?= base_url('pencairan') ?>"><i class="fa fa-circle-o"></i> Pencairan</a></li>
+                            <li class="<?= $judul === 'data' ? 'active' : '' ?>"><a
+                                    href="<?= base_url('pengajuan') ?>"><i class="fa fa-circle-o"></i>Data Pengajuan</a>
+                            </li>
+                            <li class="<?= $judul === 'verval' ? 'active' : '' ?>"><a
+                                    href="<?= base_url('verval') ?>"><i class="fa fa-circle-o"></i> Verval</a></li>
+                            <li class="<?= $judul === 'cair' ? 'active' : '' ?>"><a
+                                    href="<?= base_url('pencairan') ?>"><i class="fa fa-circle-o"></i> Pencairan</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="<?= $judul === 'spj' ? 'active' : '' ?>">
                         <a href="<?= base_url('spj') ?>">
                             <i class="fa fa-file"></i> <span>SPJ</span>
+                        </a>
+                    </li>
+                    <li class="<?= $judul === 'history' ? 'active' : '' ?>">
+                        <a href="<?= base_url('history') ?>">
+                            <i class="fa fa-line-chart"></i> <span>History Pengajuan</span>
                         </a>
                     </li>
                 </ul>
