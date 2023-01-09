@@ -29,23 +29,25 @@
                         </div>
                         <div class="form-group">
                             <label for="">Kriteria</label>
-                            <select name="kriteria" id="" class="form-control">
+                            <input type="text" name="kriteria" class="form-control" required>
+                            <!-- <select name="kriteria" id="" class="form-control">
                                 <option value=""> -pilih- </option>
                                 <?php foreach ($krit as $kd) : ?>
-                                <option value="<?= $kd->kode_kriteria; ?>">
-                                    <?= $kd->kode_kriteria . ' - ' . $kd->nama; ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                                    <option value="<?= $kd->kode_kriteria; ?>">
+                                        <?= $kd->kode_kriteria . ' - ' . $kd->nama; ?></option>
+                                        <?php endforeach; ?>
+                                    </select> -->
                         </div>
                         <div class="form-group">
-                            <label for="">Daerah</label>
-                            <select name="transport" id="" class="form-control">
+                            <label for="">Daerah/Tujuan</label>
+                            <input type="text" name="daerah" class="form-control" required>
+                            <!-- <select name="transport" id="" class="form-control">
                                 <option value=""> -pilih- </option>
                                 <?php foreach ($daerah as $kd) : ?>
                                 <option value="<?= $kd->kode_transport; ?>">
                                     <?= $kd->kode_transport . ' - ' . $kd->daerah; ?></option>
                                 <?php endforeach; ?>
-                            </select>
+                            </select> -->
                         </div>
                         <div class="form-group">
                             <label for="">Tanggal Jalan</label>

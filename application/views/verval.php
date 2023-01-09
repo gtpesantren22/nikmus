@@ -68,14 +68,41 @@
 
                                             <?php if ($dt->status === 'proses') { ?>
                                             <a href="<?= base_url('verval/setujui/' . $dt->kode_pengajuan); ?>"
-                                                onclick="return confirm('Yakin akan disetujui ?')"
                                                 class="btn btn-success btn-xs">Setujui</a> |
-                                            <a href="<?= base_url('verval/tolak/' . $dt->kode_pengajuan); ?>"
-                                                onclick="return confirm('Yakin akan ditolak ?')"
-                                                class="btn btn-danger btn-xs">Tolak</a>
+                                            <button class="btn btn-danger btn-xs" data-toggle="modal"
+                                                data-target="#<?= $dt->kode_pengajuan; ?>">Tolak</button>
                                             <?php } ?>
                                         </td>
                                     </tr>
+                                    <div class="modal fade" id="<?= $dt->kode_pengajuan; ?>">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">Penolakan Pengajuan</h4>
+                                                </div>
+                                                <?= form_open('verval/tolak') ?>
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="kode"
+                                                        value="<?= $dt->kode_pengajuan; ?>">
+                                                    <div class="form-group">
+                                                        <label for="">Tuliskan Catatan Penolakan</label>
+                                                        <textarea name="catatan" class="form-control" id="" cols="30"
+                                                            rows="10"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default pull-left"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger"><i
+                                                            class="fa fa-times"></i> Tolak Pengajuan</button>
+                                                </div>
+                                                <?= form_close() ?>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>

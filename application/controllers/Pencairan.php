@@ -67,12 +67,31 @@ class Pencairan extends CI_Controller
 			'oleh' => 'Admin Pencairan',
 			'at' => date('Y-m-d H:i')
 		];
+
+		$dtpj = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
+		$key = $this->model->getBy('api', 'nama', 'Bendahara')->row();
+		$pesan = '*INFORMASI PENCAIRAN NIKMUS*
+Pengajuan Baru 
+
+Kode : ' . $dtpj->kode_pengajuan . '
+Nama : ' . $dtpj->nama . '
+Kriteria : ' . $dtpj->kriteria . '
+Daerah : ' . $dtpj->daerah . '
+Nominal : *' . rupiah($dtpj->nom_kriteria + $dtpj->sopir + $dtpj->transport) . '*
+Penerima : *' . $this->input->post('penerima', true) . '*
+
+Terimakasih';
+
 		$this->model->edit('pengajuan', $data, $kode);
 		$this->model->simpan('pencairan', $data2);
 		$this->model->simpan('spj', $data3);
 		$this->model->simpan('history', $data4);
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('ok', 'Pengajuan sudah dicairkan.');
+			kirim_person($key->nama_key, '085234223306', $pesan);
+			kirim_person($key->nama_key, '082338631044', $pesan);
+			kirim_person($key->nama_key, '082302301003', $pesan);
+			// kirim_person($key->nama_key, '085236924510', $pesan);
 			redirect('pencairan');
 		} else {
 			$this->session->set_flashdata('error', 'Pencairan Gagal');

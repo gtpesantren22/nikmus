@@ -68,17 +68,17 @@ class Pengajuan extends CI_Controller
         $kodeBarang = $char . sprintf("%04s", $noUrut);
         $kode = htmlspecialchars($kodeBarang);
 
-        $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('transport', true))->row();
-        $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
+        // $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('transport', true))->row();
+        // $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
 
         $data = [
             'kode_pengajuan' => $kode,
             'nama' => $this->input->post('nama', true),
-            'kriteria' => $kriteria->nama,
-            'nom_kriteria' => $kriteria->nominal,
-            'daerah' => $transport->daerah,
-            'transport' => $transport->nominal,
-            'sopir' => $transport->sopir,
+            'kriteria' => $this->input->post('kriteria', true),
+            // 'nom_kriteria' => $kriteria->nominal,
+            'daerah' => $this->input->post('daerah', true),
+            // 'transport' => $transport->nominal,
+            // 'sopir' => $transport->sopir,
             'tgl_jalan' => $this->input->post('tgl_jalan', true),
             'tahun' => '2022/2023',
             'status' => 'belum',
@@ -140,10 +140,25 @@ class Pengajuan extends CI_Controller
             'oleh' => 'Humas Pesantren',
             'at' => date('Y-m-d H:i')
         ];
+        $dtpj = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
+        $key = $this->model->getBy('api', 'nama', 'Bendahara')->row();
+        $pesan = '*INFORMASI PENGAJUAN NIKMUS*
+Pengajuan Baru 
+
+Kode : ' . $dtpj->kode_pengajuan . '
+Nama : ' . $dtpj->nama . '
+Kriteria : ' . $dtpj->kriteria . '
+Daerah : ' . $dtpj->daerah . '
+
+Mohon Accounting untuk segera mengeceknya
+Terimakasih';
+
         $this->model->edit('pengajuan', $data, $kode);
         $this->model->simpan('history', $data4);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Pengajuan Berhasil. Silahkan menunggu verval dari accounting!');
+            kirim_person($key->nama_key, '082302301003', $pesan);
+            // kirim_person($key->nama_key, '085236924510', $pesan);
             redirect('pengajuan');
         } else {
             $this->session->set_flashdata('error', 'Hapus Data Gagal');
