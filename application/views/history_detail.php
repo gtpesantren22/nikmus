@@ -14,7 +14,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
                         Rincian Pengajuan
@@ -43,7 +43,31 @@
                                     <th><?= $data->daerah; ?></th>
                                 </tr>
                                 <tr>
-                                    <th>Nominal</th>
+                                    <th>Amplop</th>
+                                    <th>:</th>
+                                    <th><?= rupiah($data->nom_kriteria); ?>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Mobil/Bensin</th>
+                                    <th>:</th>
+                                    <th><?= rupiah($data->transport); ?>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Sopir</th>
+                                    <th>:</th>
+                                    <th><?= rupiah($data->sopir); ?>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>TOTAL</th>
+                                    <th>:</th>
+                                    <th><?= rupiah($data->nom_kriteria + $data->transport + $data->sopir); ?>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>TOTAL</th>
                                     <th>:</th>
                                     <th><?= rupiah($data->nom_kriteria + $data->transport + $data->sopir); ?>
                                     </th>
@@ -58,7 +82,7 @@
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
                         SPJ Pengajuan
