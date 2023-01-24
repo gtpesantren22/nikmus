@@ -18,6 +18,7 @@ class Welcome extends CI_Controller
 	{
 		$data['judul'] = 'index';
 		$data['user'] = $this->Auth_model->current_user();
+		$data['pakai'] = $this->Auth_model->pakai()->row();
 
 		$this->load->view('head', $data);
 		$this->load->view('index');

@@ -86,4 +86,11 @@ class Auth_model extends CI_Model
     {
         $this->db->insert($table, $data);
     }
+
+    function pakai(){
+        $this->db->select_sum('nom_kriteria', 'krit');
+        $this->db->select_sum('sopir', 'sopir');
+        $this->db->select_sum('transport', 'trans');
+        return $this->db->get('pengajuan');
+    }
 }
