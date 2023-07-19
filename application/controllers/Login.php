@@ -14,10 +14,10 @@ class Login extends CI_Controller
     public function index()
     {
 
-        // $data['daftar'] = $this->DataModel->data()->result();
+        $data['tahunData'] = $this->db->query("SELECT * FROM tahun ORDER BY nama_tahun DESC")->result();
 
         // $this->load->view('layout/head');
-        $this->load->view('login');
+        $this->load->view('login', $data);
         // $this->load->view('layout/foot');
     }
 
@@ -35,8 +35,9 @@ class Login extends CI_Controller
 
         $username = $this->input->post('username', true);
         $password = $this->input->post('password', true);
+        $tahun = $this->input->post('tahun', true);
 
-        if ($this->Auth_model->login($username, $password)) {
+        if ($this->Auth_model->login($username, $password, $tahun)) {
             $user = $this->Auth_model->current_user();
             redirect('welcome');
         } else {

@@ -3,9 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class SpjModel extends CI_Model
 {
-    function data()
+    function data($tahun)
     {
         $this->db->order_by('kode_pengajuan', 'ASC');
+        $this->db->where('tahun', $tahun);
         return $this->db->get('spj');
     }
 

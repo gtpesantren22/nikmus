@@ -8,6 +8,7 @@ class History extends CI_Controller
         parent::__construct();
         $this->load->model('PengajuanModel', 'model');
         $this->load->model('Auth_model');
+        $this->tahun = $this->session->userdata('tahun');
 
         $user = $this->Auth_model->current_user();
         if (!$this->Auth_model->current_user()) {
@@ -25,8 +26,9 @@ class History extends CI_Controller
     public function index()
     {
         $data['judul'] = 'history';
-        $data['data'] = $this->model->data()->result();
+        $data['data'] = $this->model->data($this->tahun)->result();
         $data['user'] = $this->Auth_model->current_user();
+        $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);
         $this->load->view('history', $data);
@@ -40,6 +42,7 @@ class History extends CI_Controller
         $data['data'] = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
         $data['data2'] = $this->model->getBy('history', 'kode_pengajuan', $kode)->result();
         $data['spj'] = $this->model->getBy('spj', 'kode_pengajuan', $kode)->row();
+        $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);
         $this->load->view('history_detail', $data);

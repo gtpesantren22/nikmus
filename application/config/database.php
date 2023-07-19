@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -84,6 +84,34 @@ $db['default'] = array(
 	// 'username' => 'u9048253_dwk',
 	// 'password' => 'PesantrenDWKIT2021',
 	// 'database' => 'u9048253_nikmus',
+
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+$db['sentral'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+
+	'username' => 'root',
+	'password' => '',
+	'database' => 'db_sentral',
+
+	// 'username' => 'u9048253_dwk',
+	// 'password' => 'PesantrenDWKIT2021',
+	// 'database' => 'u9048253_sentral',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

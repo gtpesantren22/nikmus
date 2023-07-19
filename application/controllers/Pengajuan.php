@@ -8,6 +8,7 @@ class Pengajuan extends CI_Controller
         parent::__construct();
         $this->load->model('PengajuanModel', 'model');
         $this->load->model('Auth_model');
+        $this->tahun = $this->session->userdata('tahun');
 
         $user = $this->Auth_model->current_user();
         if (!$this->Auth_model->current_user()) {
@@ -25,8 +26,9 @@ class Pengajuan extends CI_Controller
     public function index()
     {
         $data['judul'] = 'data';
-        $data['data'] = $this->model->data()->result();
+        $data['data'] = $this->model->data($this->tahun)->result();
         $data['user'] = $this->Auth_model->current_user();
+        $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan', $data);
@@ -39,6 +41,7 @@ class Pengajuan extends CI_Controller
         $data['krit'] = $this->model->krit()->result();
         $data['daerah'] = $this->model->daerah()->result();
         $data['user'] = $this->Auth_model->current_user();
+        $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_add', $data);
@@ -52,6 +55,7 @@ class Pengajuan extends CI_Controller
         $data['krit'] = $this->model->krit()->result();
         $data['daerah'] = $this->model->daerah()->result();
         $data['user'] = $this->Auth_model->current_user();
+        $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_edit', $data);
@@ -80,7 +84,7 @@ class Pengajuan extends CI_Controller
             // 'transport' => $transport->nominal,
             // 'sopir' => $transport->sopir,
             'tgl_jalan' => $this->input->post('tgl_jalan', true),
-            'tahun' => '2022/2023',
+            'tahun' => $this->tahun,
             'status' => 'belum',
             'created' => date('Y-m-d H:i')
         ];

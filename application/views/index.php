@@ -1,6 +1,6 @@
 <?php
 
-$dana = 72390000;
+$dana = $pagu->nominal;
 $pake = $pakai->krit + $pakai->sopir + $pakai->trans;
 $sisa = $dana - $pake;
 ?>

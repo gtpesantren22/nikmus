@@ -43,6 +43,14 @@
                     <input type="password" class="form-control" placeholder="Password" name="password" required>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
+                <div class="form-group has-feedback">
+                    <select name="tahun" id="" class="form-control" required>
+                        <?php foreach ($tahunData as $rw) : ?>
+                            <option value="<?= $rw->nama_tahun ?>"><?= $rw->nama_tahun ?></option>
+                        <?php endforeach ?>
+                    </select>
+                    <!-- <span class="glyphicon glyphicon-lock form-control-feedback"></span> -->
+                </div>
                 <div class="row">
                     <div class="col-xs-8">
                         <div class="checkbox icheck">
@@ -69,13 +77,13 @@
     <!-- iCheck -->
     <script src="<?= base_url('assets/') ?>plugins/iCheck/icheck.min.js"></script>
     <script>
-    $(function() {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
+        $(function() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
         });
-    });
     </script>
 </body>
 

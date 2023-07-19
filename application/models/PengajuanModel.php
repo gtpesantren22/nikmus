@@ -3,9 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class PengajuanModel extends CI_Model
 {
-    function data()
+    function __construct()
+    {
+        parent::__construct();
+        $this->db2 = $this->load->database('sentral', true);
+    }
+
+    function data($tahun)
     {
         $this->db->order_by('kode_pengajuan', 'ASC');
+        $this->db->where('tahun', $tahun);
         return $this->db->get('pengajuan');
     }
 

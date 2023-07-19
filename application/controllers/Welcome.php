@@ -7,6 +7,8 @@ class Welcome extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Auth_model');
+		$this->tahun = $this->session->userdata('tahun');
+		$this->db2 = $this->load->database('sentral', true);
 
 		// $user = $this->Auth_model->current_user();
 		if (!$this->Auth_model->current_user()) {
@@ -17,8 +19,10 @@ class Welcome extends CI_Controller
 	public function index()
 	{
 		$data['judul'] = 'index';
+		$data['tahun'] = $this->tahun;
 		$data['user'] = $this->Auth_model->current_user();
-		$data['pakai'] = $this->Auth_model->pakai()->row();
+		$data['pakai'] = $this->Auth_model->pakai($this->tahun)->row();
+		$data['pagu'] = $this->db2->query("SELECT * FROM pagu WHERE nama = 'NIKMUS' AND tahun =  '$this->tahun' ")->row();
 
 		$this->load->view('head', $data);
 		$this->load->view('index');

@@ -21,7 +21,7 @@ class Auth_model extends CI_Model
         ];
     }
 
-    public function login($username, $password)
+    public function login($username, $password, $tahun)
     {
         $this->db->where('username', $username);
         $query = $this->db->get($this->_table);
@@ -43,7 +43,13 @@ class Auth_model extends CI_Model
         }
 
         // bikin session
-        $this->session->set_userdata([self::SESSION_KEY => $user->id_user]);
+        $arrSession = [
+            self::SESSION_KEY => $user->id_user,
+            'tahun' => $tahun
+        ];
+
+        // bikin session
+        $this->session->set_userdata($arrSession);
         // $this->_update_last_login($user->id_user);
 
         return $this->session->has_userdata(self::SESSION_KEY);
@@ -87,10 +93,12 @@ class Auth_model extends CI_Model
         $this->db->insert($table, $data);
     }
 
-    function pakai(){
+    function pakai($tahun)
+    {
         $this->db->select_sum('nom_kriteria', 'krit');
         $this->db->select_sum('sopir', 'sopir');
         $this->db->select_sum('transport', 'trans');
+        $this->db->where('tahun', $tahun);
         return $this->db->get('pengajuan');
     }
 }
