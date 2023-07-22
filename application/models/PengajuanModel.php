@@ -11,7 +11,7 @@ class PengajuanModel extends CI_Model
 
     function data($tahun)
     {
-        $this->db->order_by('kode_pengajuan', 'ASC');
+        $this->db->order_by('kode_pengajuan', 'DESC');
         $this->db->where('tahun', $tahun);
         return $this->db->get('pengajuan');
     }
