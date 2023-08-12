@@ -5,8 +5,8 @@ class SpjModel extends CI_Model
 {
     function data($tahun)
     {
-        $this->db->order_by('kode_pengajuan', 'ASC');
         $this->db->where('tahun', $tahun);
+        $this->db->order_by('kode_pengajuan', 'ASC');
         return $this->db->get('spj');
     }
 

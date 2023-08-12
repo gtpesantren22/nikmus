@@ -8,6 +8,7 @@ class Pencairan extends CI_Controller
 		parent::__construct();
 		$this->load->model('PengajuanModel', 'model');
 		$this->load->model('Auth_model');
+		$this->tahun = $this->session->userdata('tahun');
 
 		$user = $this->Auth_model->current_user();
 		if (!$this->Auth_model->current_user()) {
@@ -58,7 +59,7 @@ class Pencairan extends CI_Controller
 		$data3 = [
 			'kode_pengajuan' => $kode,
 			'status' => 'belum',
-			'tahun' => '2022/2023'
+			'tahun' => $this->tahun
 		];
 		$data4 = [
 			'kode_pengajuan' => $kode,
