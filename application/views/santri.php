@@ -29,21 +29,21 @@
                                         <th>Nama</th>
                                         <th>Alamat</th>
                                         <th>Kelas</th>
-                                        <th>#</th>
+                                        <th>HP</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
                                     foreach ($baru as $dt) : ?>
-                                    <tr>
-                                        <td><?= $no++; ?></td>
-                                        <td><?= $dt->nis; ?></td>
-                                        <td><?= $dt->nama; ?></td>
-                                        <td><?= $dt->desa . ' - ' . $dt->kec . ' - ' . $dt->kab; ?></td>
-                                        <td><?= $dt->k_formal . ' - ' . $dt->t_formal; ?></td>
-                                        <td>X</td>
-                                    </tr>
+                                        <tr>
+                                            <td><?= $no++; ?></td>
+                                            <td><?= $dt->nis; ?></td>
+                                            <td><?= $dt->nama; ?></td>
+                                            <td><?= $dt->jln . ' RT ' . $dt->rt . '/RW ' . $dt->rw . ' - ' . $dt->desa . ' - ' . $dt->kec . ' - ' . $dt->kab; ?></td>
+                                            <td><?= $dt->k_formal . ' - ' . $dt->t_formal; ?></td>
+                                            <td><?= $dt->hp; ?></td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
