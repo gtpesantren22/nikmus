@@ -18,36 +18,37 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Tambah Data Pengajuan</h3>
-                        <a href="<?= base_url('pengajuan'); ?>" class="btn btn-sm btn-warning pull-right"><i
-                                class="fa fa-arrow-left"></i> Kembali</a>
+                        <a href="<?= base_url('pengajuan'); ?>" class="btn btn-sm btn-warning pull-right"><i class="fa fa-arrow-left"></i> Kembali</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <?= form_open('pengajuan/saveAdd'); ?>
+                        <input type="hidden" name="lembaga" value="<?= $user->lembaga ?>">
                         <div class="form-group">
                             <label for="">Nama yang akan dikunjungi</label>
                             <input type="text" name="nama" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="">Kriteria</label>
-                            <input type="text" name="kriteria" class="form-control" required>
-                            <!-- <select name="kriteria" id="" class="form-control">
-                                <option value=""> -pilih- </option>
-                                <?php foreach ($krit as $kd) : ?>
-                                    <option value="<?= $kd->kode_kriteria; ?>">
-                                        <?= $kd->kode_kriteria . ' - ' . $kd->nama; ?></option>
-                                        <?php endforeach; ?>
-                                    </select> -->
+                            <select name="jenis" id="listKrit" class="form-control">
+                                <option value=""> -jenis nikmus- </option>
+                                <?php foreach ($jenis as $kd) : ?>
+                                    <option value="<?= $kd->jenis; ?>"><?= $kd->jenis ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div id="isistatus"></div>
+                            <label for="">Keterangan Nikmus</label>
+                            <input type="text" name="kriteria" class="form-control" placeholder="Keterangan Nikmus" required>
                         </div>
                         <div class="form-group">
                             <label for="">Daerah/Tujuan</label>
-                            <input type="text" name="daerah" class="form-control" required>
-                            <!-- <select name="transport" id="" class="form-control">
+                            <!-- <input type="text" name="daerah" class="form-control" required> -->
+                            <select name="daerah" id="" class="form-control">
                                 <option value=""> -pilih- </option>
                                 <?php foreach ($daerah as $kd) : ?>
-                                <option value="<?= $kd->kode_transport; ?>">
-                                    <?= $kd->kode_transport . ' - ' . $kd->daerah; ?></option>
+                                    <option value="<?= $kd->kode_transport; ?>">
+                                        <?= $kd->kode_transport . ' - ' . $kd->daerah; ?></option>
                                 <?php endforeach; ?>
-                            </select> -->
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="">Tanggal Jalan</label>

@@ -26,8 +26,8 @@ class Pengajuan extends CI_Controller
     public function index()
     {
         $data['judul'] = 'data';
-        $data['data'] = $this->model->data($this->tahun)->result();
         $data['user'] = $this->Auth_model->current_user();
+        $data['data'] = $this->model->data($this->tahun, $data['user']->lembaga)->result();
         $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);
@@ -37,15 +37,34 @@ class Pengajuan extends CI_Controller
 
     public function add()
     {
+        $data['user'] = $this->Auth_model->current_user();
+        $lm = $data['user']->lembaga;
+        $cek = $this->db->query("SELECT spj.kode_pengajuan FROM spj JOIN pengajuan ON spj.kode_pengajuan=pengajuan.kode_pengajuan WHERE pengajuan.lembaga = '$lm' AND spj.status != 'selesai' ")->num_rows();
+        if ($cek > 0) {
+            $this->session->set_flashdata('error', 'Maaf. Ada SPJ yang belum selesai');
+            redirect('pengajuan');
+        }
         $data['judul'] = 'data';
         $data['krit'] = $this->model->krit()->result();
         $data['daerah'] = $this->model->daerah()->result();
-        $data['user'] = $this->Auth_model->current_user();
         $data['tahun'] = $this->tahun;
+        $data['jenis'] = $this->model->getByGroup('kriteria', 'tahun', $this->tahun, 'jenis')->result();
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_add', $data);
         $this->load->view('foot');
+    }
+
+    public function getKrit()
+    {
+        $jenis = $this->input->post('jenis', true);
+        $data = $this->model->getBy2('kriteria', 'tahun', $this->tahun, 'jenis', $jenis)->result();
+
+        foreach ($data as $hasil) {
+            echo '<div class="radio"><label><input type="radio" name="kodeKrit" value="' . $hasil->kode_kriteria . '"><span class="label label-success">'  . $hasil->status . '</span><br><span class="label label-warning">'  . $hasil->jenis . '</span>|<span class="label label-danger">'  . $hasil->ybs . '</span></label></div>';
+            // echo 'jhasil';
+        }
+        // echo json_encode($data);
     }
 
     public function edit($kode)
@@ -56,6 +75,8 @@ class Pengajuan extends CI_Controller
         $data['daerah'] = $this->model->daerah()->result();
         $data['user'] = $this->Auth_model->current_user();
         $data['tahun'] = $this->tahun;
+        $data['jenis'] = $this->model->getByGroup('kriteria', 'tahun', $this->tahun, 'jenis')->result();
+        $data['kritPilih'] = $this->model->getBy('kriteria', 'kode_kriteria', $data['data']->kode_kriteria)->row();
 
         $this->load->view('head', $data);
         $this->load->view('pengajuan_edit', $data);
@@ -72,20 +93,22 @@ class Pengajuan extends CI_Controller
         $kodeBarang = $char . sprintf("%04s", $noUrut);
         $kode = htmlspecialchars($kodeBarang);
 
-        // $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('transport', true))->row();
-        // $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
+        $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('daerah', true))->row();
+        $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kodeKrit', true))->row();
 
         $data = [
             'kode_pengajuan' => $kode,
             'nama' => $this->input->post('nama', true),
             'kriteria' => $this->input->post('kriteria', true),
-            // 'nom_kriteria' => $kriteria->nominal,
+            'kode_kriteria' => $kriteria->kode_kriteria,
+            'nom_kriteria' => $kriteria->nominal,
             'daerah' => $this->input->post('daerah', true),
-            // 'transport' => $transport->nominal,
-            // 'sopir' => $transport->sopir,
+            'transport' => $transport->nominal,
+            'sopir' => $transport->sopir,
             'tgl_jalan' => $this->input->post('tgl_jalan', true),
             'tahun' => $this->tahun,
             'status' => 'belum',
+            'lembaga' => $this->input->post('lembaga', true),
             'created' => date('Y-m-d H:i')
         ];
         $data4 = [
@@ -111,17 +134,30 @@ class Pengajuan extends CI_Controller
     {
         $where = $this->input->post('kode_pengajuan', true);
         $transport = $this->model->getBy('transport', 'kode_transport', $this->input->post('transport', true))->row();
-        $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
+        // $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kriteria', true))->row();
 
-        $data = [
-            'nama' => $this->input->post('nama', true),
-            'kriteria' => $kriteria->nama,
-            'nom_kriteria' => $kriteria->nominal,
-            'daerah' => $transport->daerah,
-            'transport' => $transport->nominal,
-            'sopir' => $transport->sopir,
-            'tgl_jalan' => $this->input->post('tgl_jalan', true)
-        ];
+        if ($this->input->post('kodeKrit', true)) {
+            $kriteria = $this->model->getBy('kriteria', 'kode_kriteria', $this->input->post('kodeKrit', true))->row();
+            $data = [
+                'nama' => $this->input->post('nama', true),
+                'kriteria' => $this->input->post('kriteria', true),
+                'kode_kriteria' => $kriteria->kode_kriteria,
+                'nom_kriteria' => $kriteria->nominal,
+                'daerah' => $transport->daerah,
+                'transport' => $transport->nominal,
+                'sopir' => $transport->sopir,
+                'tgl_jalan' => $this->input->post('tgl_jalan', true)
+            ];
+        } else {
+            $data = [
+                'kriteria' => $this->input->post('kriteria', true),
+                'nama' => $this->input->post('nama', true),
+                'daerah' => $transport->daerah,
+                'transport' => $transport->nominal,
+                'sopir' => $transport->sopir,
+                'tgl_jalan' => $this->input->post('tgl_jalan', true)
+            ];
+        }
 
         $this->model->edit('pengajuan', $data, $where);
 
@@ -146,23 +182,25 @@ class Pengajuan extends CI_Controller
         ];
         $dtpj = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
         $key = $this->model->getBy('api', 'nama', 'Bendahara')->row();
+        $drh = $this->model->getBy('transport', 'kode_transport', $dtpj->daerah)->row();
         $pesan = '*INFORMASI PENGAJUAN NIKMUS*
 Pengajuan Baru 
 
 Kode : ' . $dtpj->kode_pengajuan . '
 Nama : ' . $dtpj->nama . '
-Kriteria : ' . $dtpj->kriteria . '
-Daerah : ' . $dtpj->daerah . '
+Lembaga : ' . $dtpj->lembaga . '
+Ket : ' . $dtpj->kriteria . '
+Daerah : ' . $drh->daerah . '
 
-Mohon Accounting untuk segera mengeceknya
+Dimohon kepada Humas Pesantren untuk segera mengeceknya
 Terimakasih';
 
         $this->model->edit('pengajuan', $data, $kode);
         $this->model->simpan('history', $data4);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Pengajuan Berhasil. Silahkan menunggu verval dari accounting!');
-            kirim_person($key->nama_key, '082302301003', $pesan);
-            // kirim_person($key->nama_key, '085236924510', $pesan);
+            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan);
+            kirim_person($key->nama_key, '085236924510', $pesan);
             redirect('pengajuan');
         } else {
             $this->session->set_flashdata('error', 'Hapus Data Gagal');

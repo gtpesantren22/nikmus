@@ -103,8 +103,7 @@
                                 <tr>
                                     <th>Berkas/File</th>
                                     <th>:</th>
-                                    <th><button class="btn btn-success btn-xs" data-toggle="modal"
-                                            data-target="#view"><i class="fa fa-eye"></i> Lihat Berkas SPJ</button></th>
+                                    <th><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#view"><i class="fa fa-eye"></i> Lihat Berkas SPJ</button></th>
                                 </tr>
                                 <tr>
                                     <th>Status</th>
@@ -141,25 +140,25 @@
                             $bg = 'label label-danger';
                         }
                     ?>
-                    <li>
-                        <!-- timeline icon -->
-                        <i class="fa fa-arrow-down bg-blue"></i>
-                        <div class="timeline-item">
+                        <li>
+                            <!-- timeline icon -->
+                            <i class="fa fa-arrow-down bg-blue"></i>
+                            <div class="timeline-item">
 
 
-                            <h3 class="timeline-header">
-                                <span class="badge bg-purple pull-right"><i class="fa fa-clock-o"></i>
-                                    <?= $row->at; ?></span>
-                                <span class="label label-success"><?= $row->status; ?></span> |
-                                <span class="<?= $bg; ?>"><?= $row->oleh; ?></span>
-                            </h3>
+                                <h3 class="timeline-header">
+                                    <span class="badge bg-purple pull-right"><i class="fa fa-clock-o"></i>
+                                        <?= $row->at; ?></span>
+                                    <span class="label label-success"><?= $row->status; ?></span> |
+                                    <span class="<?= $bg; ?>"><?= $row->oleh; ?></span>
+                                </h3>
 
-                            <div class="timeline-body">
-                                <?= $row->ket; ?>
+                                <div class="timeline-body">
+                                    <?= $row->ket; ?>
+                                </div>
+
                             </div>
-
-                        </div>
-                    </li>
+                        </li>
                     <?php endforeach; ?>
                     <!-- END timeline item -->
                 </ul>
@@ -177,8 +176,7 @@
                 <h4 class="modal-title">SPJ Nikmus</h4>
             </div>
             <div class="modal-body">
-                <iframe src="<?= base_url('/assets/berkas/' . $spj->berkas) ?>" width="100%" height="500"
-                    style="border:none;"></iframe>
+                <iframe src="<?= base_url('/assets/berkas/' . $spj->berkas) ?>" width="100%" height="500" style="border:none;"></iframe>
             </div>
         </div>
     </div>

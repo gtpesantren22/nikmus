@@ -20,6 +20,8 @@ class Kriteria extends CI_Controller
             </script>
             ";
         }
+
+        $this->tahun = '2023/2024';
     }
 
     public function index()
@@ -45,9 +47,11 @@ class Kriteria extends CI_Controller
 
         $data = [
             'kode_kriteria' => $kode,
-            'nama' => $this->input->post('nama', true),
+            'status' => $this->input->post('status', true),
+            'ybs' => $this->input->post('ybs', true),
+            'jenis' => $this->input->post('jenis', true),
             'nominal' => rmRp($this->input->post('nominal', true)),
-            'tahun' => '2022/2023'
+            'tahun' => $this->tahun
         ];
 
         $this->model->simpan('kriteria', $data);

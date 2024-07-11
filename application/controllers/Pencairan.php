@@ -28,6 +28,7 @@ class Pencairan extends CI_Controller
 		$data['judul'] = 'cair';
 		$data['data'] = $this->model->cair()->result();
 		$data['user'] = $this->Auth_model->current_user();
+		$data['tahun'] = $this->tahun;
 
 		$this->load->view('head', $data);
 		$this->load->view('cair', $data);
@@ -38,7 +39,9 @@ class Pencairan extends CI_Controller
 	{
 		$data['judul'] = 'cair';
 		$data['data'] = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
+		$data['daerah'] = $this->model->getBy('transport', 'kode_transport', $data['data']->daerah)->row();
 		$data['user'] = $this->Auth_model->current_user();
+		$data['tahun'] = $this->tahun;
 
 		$this->load->view('head', $data);
 		$this->load->view('cek', $data);
@@ -69,15 +72,16 @@ class Pencairan extends CI_Controller
 			'at' => date('Y-m-d H:i')
 		];
 
-		$dtpj = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
 		$key = $this->model->getBy('api', 'nama', 'Bendahara')->row();
+		$dtpj = $this->model->getBy('pengajuan', 'kode_pengajuan', $kode)->row();
+		$daerah = $this->model->getBy('transport', 'kode_transport', $dtpj->daerah)->row();
 		$pesan = '*INFORMASI PENCAIRAN NIKMUS*
 Pengajuan Baru 
 
 Kode : ' . $dtpj->kode_pengajuan . '
 Nama : ' . $dtpj->nama . '
 Kriteria : ' . $dtpj->kriteria . '
-Daerah : ' . $dtpj->daerah . '
+Daerah : ' . $daerah->daerah . '
 Nominal : *' . rupiah($dtpj->nom_kriteria + $dtpj->sopir + $dtpj->transport) . '*
 Penerima : *' . $this->input->post('penerima', true) . '*
 
@@ -90,9 +94,7 @@ Terimakasih';
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('ok', 'Pengajuan sudah dicairkan.');
 			kirim_person($key->nama_key, '085234223306', $pesan);
-			kirim_person($key->nama_key, '082338631044', $pesan);
-			kirim_person($key->nama_key, '082302301003', $pesan);
-			// kirim_person($key->nama_key, '085236924510', $pesan);
+			kirim_person($key->nama_key, '085236924510', $pesan);
 			redirect('pencairan');
 		} else {
 			$this->session->set_flashdata('error', 'Pencairan Gagal');

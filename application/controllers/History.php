@@ -26,8 +26,8 @@ class History extends CI_Controller
     public function index()
     {
         $data['judul'] = 'history';
-        $data['data'] = $this->model->data($this->tahun)->result();
         $data['user'] = $this->Auth_model->current_user();
+        $data['data'] = $this->model->data($this->tahun, $data['user']->lembaga)->result();
         $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);

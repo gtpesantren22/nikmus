@@ -18,8 +18,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Edit Data Pengajuan</h3>
-                        <a href="<?= base_url('pengajuan'); ?>" class="btn btn-sm btn-warning pull-right"><i
-                                class="fa fa-arrow-left"></i> Kembali</a>
+                        <a href="<?= base_url('pengajuan'); ?>" class="btn btn-sm btn-warning pull-right"><i class="fa fa-arrow-left"></i> Kembali</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <?= form_open('pengajuan/editAct'); ?>
@@ -27,26 +26,29 @@
                         <div class="form-group">
                             <label for="">Nama yang akan dikunjungi</label>
                             <input type="text" name="nama" class="form-control" required value="<?= $data->nama; ?>">
+                            <span class="label label-success"><?= $kritPilih->status ?></span><br>
+                            <span class="label label-warning"><?= $kritPilih->jenis ?></span><span class="label label-danger"><?= $kritPilih->ybs ?></span>
                         </div>
                         <div class="form-group">
                             <label for="">Kriteria</label>
-                            <select name="kriteria" id="" class="form-control">
-                                <option value=""> -pilih- </option>
-                                <?php foreach ($krit as $kd) : ?>
-                                <option value="<?= $kd->kode_kriteria; ?>"
-                                    <?= $kd->nama === $data->kriteria ? 'selected' : '' ?>>
-                                    <?= $kd->kode_kriteria . ' - ' . $kd->nama; ?></option>
+                            <select name="jenis" id="listKrit" class="form-control">
+                                <option value=""> -jenis nikmus- </option>
+                                <?php foreach ($jenis as $kd) : ?>
+                                    <option value="<?= $kd->jenis; ?>"><?= $kd->jenis ?></option>
                                 <?php endforeach; ?>
                             </select>
+                            <small class="text-danger">* Kosongi 'Kriteria' diatas jika tidak ada perubahan</small><br>
+                            <div id="isistatus"></div>
+                            <label for="">Keterangan Sakit</label>
+                            <input type="text" name="kriteria" class="form-control" placeholder="Keterangan Sakit" value="<?= $data->kriteria ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="">Daerah</label>
                             <select name="transport" id="" class="form-control">
                                 <option value=""> -pilih- </option>
                                 <?php foreach ($daerah as $kd) : ?>
-                                <option value="<?= $kd->kode_transport; ?>"
-                                    <?= $kd->daerah === $data->daerah ? 'selected' : '' ?>>
-                                    <?= $kd->kode_transport . ' - ' . $kd->daerah; ?></option>
+                                    <option <?= $data->daerah == $kd->kode_transport ? 'selected' : '' ?> value="<?= $kd->kode_transport; ?>" <?= $kd->daerah === $data->daerah ? 'selected' : '' ?>>
+                                        <?= $kd->kode_transport . ' - ' . $kd->daerah; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -56,8 +58,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="date" name="tgl_jalan" class="form-control pull-right" id="" required
-                                    value="<?= $data->tgl_jalan; ?>">
+                                <input type="date" name="tgl_jalan" class="form-control pull-right" id="" required value="<?= $data->tgl_jalan; ?>">
                             </div>
                         </div>
                         <div class="form-group">

@@ -113,7 +113,7 @@
                     </div>
                     <div class="pull-left info">
                         <p><?= $user->nama; ?></p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <a href="#"><i class="fa fa-circle text-success"></i> <?= $user->level ?></a>
                     </div>
                 </div>
                 <!-- sidebar menu: : style can be found in sidebar.less -->

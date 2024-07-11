@@ -3,11 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class SpjModel extends CI_Model
 {
-    function data($tahun)
+    function data($tahun, $lembaga)
     {
-        $this->db->where('tahun', $tahun);
-        $this->db->order_by('kode_pengajuan', 'ASC');
-        return $this->db->get('spj');
+        return $this->db->query("SELECT spj.* FROM spj JOIN pengajuan ON spj.kode_pengajuan=pengajuan.kode_pengajuan WHERE spj.tahun = '$tahun' AND pengajuan.lembaga = '$lembaga' ");
     }
 
     function verval()
@@ -37,6 +35,12 @@ class SpjModel extends CI_Model
         $this->db->where($where, $dtwr);
         return $this->db->get($table);
     }
+    function getBy2($table, $where, $dtwr, $where1, $dtwr1)
+    {
+        $this->db->where($where, $dtwr);
+        $this->db->where($where1, $dtwr1);
+        return $this->db->get($table);
+    }
 
     function simpan($table, $data)
     {
@@ -59,6 +63,11 @@ class SpjModel extends CI_Model
     function hapus($table, $where)
     {
         $this->db->where('kode_pengajuan', $where);
+        $this->db->delete($table);
+    }
+    function hapus2($table, $where, $dtwr)
+    {
+        $this->db->where($where, $dtwr);
         $this->db->delete($table);
     }
 

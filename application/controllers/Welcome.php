@@ -23,6 +23,9 @@ class Welcome extends CI_Controller
 		$data['user'] = $this->Auth_model->current_user();
 		$data['pakai'] = $this->Auth_model->pakai($this->tahun)->row();
 		$data['pagu'] = $this->db2->query("SELECT * FROM pagu WHERE nama = 'NIKMUS' AND tahun =  '$this->tahun' ")->row();
+		$lembaga = $data['user']->lembaga;
+		$data['jumlah'] = $this->db->query("SELECT COUNT(kode_pengajuan) as jumlah FROM pengajuan WHERE tahun =  '$this->tahun' AND lembaga = '$lembaga' ")->row('jumlah');
+		$data['total'] = $this->db->query("SELECT SUM(nom_kriteria+transport+sopir) as total FROM pengajuan WHERE tahun =  '$this->tahun' AND lembaga = '$lembaga' ")->row('total');
 
 		$this->load->view('head', $data);
 		$this->load->view('index');

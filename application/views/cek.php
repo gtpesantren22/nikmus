@@ -18,8 +18,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Pencairan Pengajuan</h3>
-                        <a href="<?= base_url('pencairan'); ?>" class="btn btn-sm btn-warning pull-right"><i
-                                class="fa fa-arrow-left"></i> Kembali</a>
+                        <a href="<?= base_url('pencairan'); ?>" class="btn btn-sm btn-warning pull-right"><i class="fa fa-arrow-left"></i> Kembali</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="row">
@@ -39,7 +38,7 @@
                                     </tr>
                                     <tr>
                                         <th>Daerah</th>
-                                        <td><?= $data->daerah ?></td>
+                                        <td><?= $daerah->daerah ?></td>
                                     </tr>
                                     <tr>
                                         <th>Transport</th>
@@ -76,14 +75,12 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" name="tgl_cair" class="form-control pull-right" id=""
-                                            required>
+                                        <input type="date" name="tgl_cair" class="form-control pull-right" id="" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Kasir</label>
-                                    <input type="text" name="kasir" class="form-control" value="<?= $user->nama; ?>"
-                                        readonly>
+                                    <input type="text" name="kasir" class="form-control" value="<?= $user->nama; ?>" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for=""></label>

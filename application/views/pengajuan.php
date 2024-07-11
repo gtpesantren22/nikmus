@@ -26,7 +26,7 @@
                         <?php if ($this->session->flashdata('error')) : ?>
                             <div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                <i class="fa fa-check"></i> <?= $this->session->flashdata('error') ?>
+                                <i class="fa fa-times"></i> <?= $this->session->flashdata('error') ?>
                             </div>
                         <?php endif; ?>
                         <h3 class="box-title">Data Pengajuan</h3>
@@ -39,13 +39,13 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode Pengajuan</th>
+                                        <th>Kode</th>
                                         <th>Tujuan</th>
-                                        <th>Kriteria</th>
+                                        <th>Ket</th>
                                         <th>Daerah</th>
                                         <th>Nominal</th>
-                                        <th>Status</th>
                                         <th>Tanggal</th>
+                                        <th>Status</th>
                                         <th>#</th>
                                     </tr>
                                 </thead>
@@ -58,7 +58,7 @@
                                             <td><?= $dt->kode_pengajuan; ?></td>
                                             <td><?= $dt->nama; ?></td>
                                             <td><?= $dt->kriteria; ?></td>
-                                            <td><?= $dt->daerah; ?></td>
+                                            <td><?= $dt->tujuan; ?></td>
                                             <td><?= rupiah($dt->nom_kriteria + $dt->transport + $dt->sopir); ?></td>
                                             <td><?= $dt->tgl_jalan; ?></td>
                                             <td>

@@ -19,8 +19,7 @@
 <!-- Bootstrap 3.3.5 -->
 <!-- <script src="bootstrap/js/bootstrap.min.js"></script> -->
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
-    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
 </script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
@@ -57,20 +56,40 @@
 <script src="<?= base_url('assets/') ?>dist/jquery.mask.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    $('#example1').DataTable();
+    $(document).ready(function() {
+        $('#example1').DataTable();
 
-    // Format mata uang.
-    $('.uang').mask('000.000.000.000', {
-        reverse: true
+        // Format mata uang.
+        $('.uang').mask('000.000.000.000', {
+            reverse: true
+        });
+
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        });
+
+
+        $('#listKrit').on('change', function() {
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url('pengajuan/getKrit'); ?>',
+                data: {
+                    jenis: $(this).val()
+                },
+                success: function(response) {
+                    $('#isistatus').html(response)
+                },
+                error: function(xhr, status, error) {
+                    console.log('Gagal mencari data. Kesalahan: ' + status + ' - ' + error);
+                    // console.error('AJAX error:', status, error);
+                }
+            });
+
+            // console.log('formData');
+        });
+
     });
-
-    //Date picker
-    $('#datepicker').datepicker({
-        autoclose: true
-    })
-
-});
 </script>
 </body>
 

@@ -42,6 +42,7 @@ class User extends CI_Controller
             'level' => $this->input->post('level', true),
             'password' => password_hash($this->input->post('password', true), PASSWORD_BCRYPT),
             'aktif' => $this->input->post('aktif', true),
+            'lembaga' => $this->input->post('lembaga', true),
         ];
 
         $this->model->simpan('user', $data);

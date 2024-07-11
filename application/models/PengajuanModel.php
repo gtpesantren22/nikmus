@@ -9,15 +9,23 @@ class PengajuanModel extends CI_Model
         $this->db2 = $this->load->database('sentral', true);
     }
 
-    function data($tahun)
+    function data($tahun, $lembaga)
     {
+        $this->db->select('pengajuan.*, transport.daerah AS tujuan');
+        if ($lembaga == 'Pesantren') {
+        } else {
+            $this->db->where('lembaga', $lembaga);
+        }
+        $this->db->join('transport', 'pengajuan.daerah=transport.kode_transport');
+        $this->db->where('pengajuan.tahun', $tahun);
         $this->db->order_by('tgl_jalan', 'DESC');
-        $this->db->where('tahun', $tahun);
         return $this->db->get('pengajuan');
     }
 
     function verval()
     {
+        $this->db->select('pengajuan.*, transport.daerah AS tujuan');
+        $this->db->join('transport', 'pengajuan.daerah=transport.kode_transport');
         $this->db->where('status', 'proses');
         return $this->db->get('pengajuan');
     }
@@ -41,6 +49,18 @@ class PengajuanModel extends CI_Model
     function getBy($table, $where, $dtwr)
     {
         $this->db->where($where, $dtwr);
+        return $this->db->get($table);
+    }
+    function getBy2($table, $where, $dtwr, $where2, $dtwr2)
+    {
+        $this->db->where($where, $dtwr);
+        $this->db->where($where2, $dtwr2);
+        return $this->db->get($table);
+    }
+    function getByGroup($table, $where, $dtwr, $grp)
+    {
+        $this->db->where($where, $dtwr);
+        $this->db->group_by($grp);
         return $this->db->get($table);
     }
 
