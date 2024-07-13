@@ -29,6 +29,7 @@ class Kriteria extends CI_Controller
         $data['judul'] = 'kriteria';
         $data['data'] = $this->model->data()->result();
         $data['user'] = $this->Auth_model->current_user();
+        $data['tahun'] = $this->tahun;
 
         $this->load->view('head', $data);
         $this->load->view('krit', $data);
