@@ -5,7 +5,11 @@ class SpjModel extends CI_Model
 {
     function data($tahun, $lembaga)
     {
-        return $this->db->query("SELECT spj.* FROM spj JOIN pengajuan ON spj.kode_pengajuan=pengajuan.kode_pengajuan WHERE spj.tahun = '$tahun' AND pengajuan.lembaga = '$lembaga' ");
+        if ($lembaga == 'Pesantren') {
+            return $this->db->query("SELECT spj.* FROM spj JOIN pengajuan ON spj.kode_pengajuan=pengajuan.kode_pengajuan WHERE spj.tahun = '$tahun' ");
+        } else {
+            return $this->db->query("SELECT spj.* FROM spj JOIN pengajuan ON spj.kode_pengajuan=pengajuan.kode_pengajuan WHERE spj.tahun = '$tahun' AND pengajuan.lembaga = '$lembaga' ");
+        }
     }
 
     function verval()

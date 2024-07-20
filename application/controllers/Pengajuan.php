@@ -40,7 +40,7 @@ class Pengajuan extends CI_Controller
         $data['user'] = $this->Auth_model->current_user();
         $lm = $data['user']->lembaga;
         $cek = $this->db->query("SELECT spj.kode_pengajuan FROM spj JOIN pengajuan ON spj.kode_pengajuan=pengajuan.kode_pengajuan WHERE pengajuan.lembaga = '$lm' AND spj.status != 'selesai' ")->num_rows();
-        if ($cek > 0) {
+        if ($cek > 3) {
             $this->session->set_flashdata('error', 'Maaf. Ada SPJ yang belum selesai');
             redirect('pengajuan');
         }
