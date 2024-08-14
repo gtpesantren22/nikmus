@@ -1,3 +1,6 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -51,7 +54,10 @@
                                             <?php foreach ($fileFotoNota as $foto) : ?>
                                                 <tr>
                                                     <td>
-                                                        <img src="<?= base_url('assets/berkas/' . $foto->berkas) ?>" alt="" height="100">
+                                                        <!-- <img src="<?= base_url('assets/berkas/' . $foto->berkas) ?>" alt="" height="100"> -->
+                                                        <a href="<?= base_url('assets/berkas/' . $foto->berkas) ?>" data-lightbox="image-1">
+                                                            <img src="<?= base_url('assets/berkas/' . $foto->berkas) ?>" alt="Berkas Image" style="width: 200px;">
+                                                        </a>
                                                     </td>
                                                     <td>&nbsp;</td>
                                                     <!-- <td><a class="btn btn-xs btn-danger" href="<?= base_url('spj/delFoto/' . $foto->id_file) ?>">Hapus</a></td> -->
@@ -74,7 +80,10 @@
                                             <?php foreach ($fileFotoHasil as $foto) : ?>
                                                 <tr>
                                                     <td>
-                                                        <img src="<?= base_url('assets/berkas/' . $foto->berkas) ?>" alt="" height="100">
+                                                        <!-- <img src="<?= base_url('assets/berkas/' . $foto->berkas) ?>" alt="" height="100"> -->
+                                                        <a href="<?= base_url('assets/berkas/' . $foto->berkas) ?>" data-lightbox="image-1">
+                                                            <img src="<?= base_url('assets/berkas/' . $foto->berkas) ?>" alt="Nota Image" style="width: 200px;">
+                                                        </a>
                                                     </td>
                                                     <td>&nbsp;</td>
                                                     <!-- <td><a class="btn btn-xs btn-danger" href="<?= base_url('spj/delFoto/' . $foto->id_file) ?>">Hapus</a></td> -->
