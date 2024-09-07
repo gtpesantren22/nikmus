@@ -126,6 +126,7 @@
                         <option value="Pengasuh, Pimpinan dan karyawan/pengurus"> Pengasuh, Pimpinan dan karyawan/pengurus </option>
                         <option value="Guru Tetap">Guru Tetap</option>
                         <option value="Siswa/santri mukim">Siswa/santri mukim</option>
+                        <option value="Siswa/santri tidak mukim">Siswa/santri tidak mukim</option>
                     </select>
                 </div>
                 <div class="form-group">
