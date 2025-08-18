@@ -81,10 +81,6 @@ $db['default'] = array(
 	'password' => '',
 	'database' => 'db_nikmus',
 
-	// 'username' => 'u9048253_dwk',
-	// 'password' => 'PesantrenDWKIT2021',
-	// 'database' => 'u9048253_nikmus',
-
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -108,10 +104,6 @@ $db['sentral'] = array(
 	'username' => 'root',
 	'password' => '',
 	'database' => 'db_sentral',
-
-	// 'username' => 'u9048253_dwk',
-	// 'password' => 'PesantrenDWKIT2021',
-	// 'database' => 'u9048253_sentral',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
