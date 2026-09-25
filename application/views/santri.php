@@ -17,7 +17,22 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
+                        <?php if ($this->session->flashdata('ok')) : ?>
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <i class="fa fa-check"></i> <?= $this->session->flashdata('ok') ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->session->flashdata('error')) : ?>
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <i class="fa fa-times"></i> <?= $this->session->flashdata('error') ?>
+                            </div>
+                        <?php endif; ?>
                         <h3 class="box-title">Data Santri Putra</h3>
+                        <a href="<?= base_url('santri/sync'); ?>" onclick="return confirm('Apakah Anda yakin ingin melakukan sinkronisasi data santri dari Database Sentral? Data santri lokal akan diperbarui.')" class="btn btn-sm btn-primary pull-right">
+                            <i class="fa fa-refresh"></i> Sync Data Santri
+                        </a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">

@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class SantriModel extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->db2 = $this->load->database('sentral', true);
+    }
+
     function baru()
     {
         $this->db->where('aktif', 'Y');
@@ -10,92 +16,53 @@ class SantriModel extends CI_Model
         return $this->db->get();
     }
 
-    // function lama()
-    // {
-    //     $this->db->where('ket', 'lama');
-    //     $this->db->from('tb_santri');
-    //     return $this->db->get();
-    // }
+    public function syncSantri()
+    {
+        try {
+            // Ambil data santri aktif dari database sentral
+            $this->db2->where('aktif', 'Y');
+            $santriSentral = $this->db2->get('tb_santri');
 
-    // function santriNis($nis)
-    // {
-    //     $this->db->where('nis', $nis);
-    //     $this->db->from('tb_santri');
-    //     return $this->db->get();
-    // }
+            if (!$santriSentral) {
+                return false;
+            }
 
-    // function agama()
-    // {
-    //     $this->db->from('agama');
-    //     return $this->db->get();
-    // }
+            $data = $santriSentral->result_array();
+            $total = count($data);
 
-    // function edit($table, $data, $where)
-    // {
-    //     $this->db->where('nis', $where);
-    //     $this->db->update($table, $data);
-    // }
+            if ($total > 0) {
+                // Dapatkan kolom yang ada di tabel lokal tb_santri
+                $localFields = $this->db->list_fields('tb_santri');
+                $fieldsMap = array_flip($localFields);
 
-    // function pend()
-    // {
-    //     $this->db->select('*');
-    //     $this->db->from('pend');
-    //     return $this->db->get();
-    // }
+                // Filter setiap baris data agar hanya kolom yang ada di database lokal yang dimasukkan
+                $filteredData = [];
+                foreach ($data as $row) {
+                    $filteredData[] = array_intersect_key($row, $fieldsMap);
+                }
 
-    // function pkj()
-    // {
-    //     $this->db->select('*');
-    //     $this->db->from('pkj');
-    //     return $this->db->get();
-    // }
+                $this->db->trans_start();
+                $this->db->truncate('tb_santri');
 
-    // function hasil()
-    // {
-    //     $this->db->select('*');
-    //     $this->db->from('hasil');
-    //     return $this->db->get();
-    // }
+                // Insert data dalam batch per 500 baris agar optimal
+                $chunks = array_chunk($filteredData, 500);
+                foreach ($chunks as $chunk) {
+                    $this->db->insert_batch('tb_santri', $chunk);
+                }
 
-    // function getprov()
-    // {
-    //     $this->db->order_by('nama', 'ASC');
-    //     return $this->db->from('provinsi')->get()->result();
-    // }
+                $this->db->trans_complete();
 
-    // function getKab($id_provinsi)
-    // {
-    //     $this->db->where('id_prov', $id_provinsi);
-    //     $this->db->order_by('nama', 'ASC');
-    //     return $this->db->from('kabupaten')->get()->result();
-    // }
-    // function getKec($id_kab)
-    // {
-    //     $this->db->where('id_kab', $id_kab);
-    //     $this->db->order_by('nama', 'ASC');
-    //     return $this->db->from('kecamatan')->get()->result();
-    // }
-    // function getKel($id_kec)
-    // {
-    //     $this->db->where('id_kec', $id_kec);
-    //     $this->db->order_by('nama', 'ASC');
-    //     return $this->db->from('kelurahan')->get()->result();
-    // }
-
-    // function getSkl($npsn)
-    // {
-    //     $this->db->where('npsn', $npsn);
-    //     $this->db->from('sekolah');
-    //     return $this->db->get()->row();
-    // }
-
-    // function baruLmb($lmb)
-    // {
-    //     $this->db->where('lembaga', $lmb);
-    //     $this->db->where('ket', 'baru');
-    //     $this->db->from('tb_santri');
-    //     return $this->db->get();
-    // }
+                if ($this->db->trans_status() === FALSE) {
+                    return false;
+                }
+                return $total;
+            }
+            return 0;
+        } catch (\Exception $e) {
+            log_message('error', 'Sync Santri Error: ' . $e->getMessage());
+            return false;
+        }
+    }
 
     function apikey()
     {

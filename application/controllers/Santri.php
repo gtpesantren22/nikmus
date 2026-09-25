@@ -26,14 +26,16 @@ class Santri extends CI_Controller
 		$this->load->view('foot');
 	}
 
-	// public function lanjut()
-	// {
-	// 	$data['baru'] = $this->model->lama()->result();
-	// 	$data['judul'] = 'santri';
-	// 	$data['user'] = $this->Auth_model->current_user();
-
-	// 	$this->load->view('bunda/head', $data);
-	// 	$this->load->view('bunda/lama', $data);
-	// 	$this->load->view('bunda/foot');
-	// }
+	public function sync()
+	{
+		$result = $this->model->syncSantri();
+		if ($result !== false && $result > 0) {
+			$this->session->set_flashdata('ok', 'Sinkronisasi berhasil! ' . number_format($result, 0, ',', '.') . ' data santri berhasil diperbarui dari Database Sentral.');
+		} elseif ($result === 0) {
+			$this->session->set_flashdata('ok', 'Sinkronisasi selesai. Tidak ada data santri aktif ditemukan di Database Sentral.');
+		} else {
+			$this->session->set_flashdata('error', 'Gagal melakukan sinkronisasi data santri dari Database Sentral. Silakan periksa koneksi.');
+		}
+		redirect('santri');
+	}
 }
