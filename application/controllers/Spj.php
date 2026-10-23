@@ -107,8 +107,8 @@ Tanggal : ' . date('Y-m-d H:i') . '
 
 Akan segera di cek oleh Humas Pesantren. Terimakasih';
 
-            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan);
-            kirim_person($key->nama_key, '085236924510', $pesan);
+            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan, 'BENDAHARA');
+            // kirim_person($key->nama_key, '085236924510', $pesan, 'BENDAHARA');
 
             redirect('spj');
         } else {
@@ -219,8 +219,8 @@ Tanggal : ' . date('Y-m-d H:i') . '
 SPJ disetujui oleh Humas Pesantren. Selanjutnya bisa melakukan pengajuan berikutnya.
 Terimakasih';
 
-            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan);
-            kirim_person($key->nama_key, '085236924510', $pesan);
+            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan, 'BENDAHARA');
+            // kirim_person($key->nama_key, '085236924510', $pesan, 'BENDAHARA');
             redirect('spj');
         } else {
             $this->session->set_flashdata('error', 'Persetujuan Data Gagal');
@@ -256,8 +256,8 @@ Tanggal : ' . date('Y-m-d H:i') . '
 SPJ *ditolak* oleh Humas Pesantren.
 Terimakasih';
 
-            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan);
-            kirim_person($key->nama_key, '085236924510', $pesan);
+            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan, 'BENDAHARA');
+            // kirim_person($key->nama_key, '085236924510', $pesan, 'BENDAHARA');
             redirect('spj');
         } else {
             $this->session->set_flashdata('error', 'Persetujuan Data Gagal');

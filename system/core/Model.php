@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/userguide3/libraries/config.html
  */
+#[\AllowDynamicProperties]
 class CI_Model {
 
 	/**
@@ -72,6 +73,20 @@ class CI_Model {
 		//	saying 'Undefined Property: system/core/Model.php', it's
 		//	most likely a typo in your model code.
 		return get_instance()->$key;
+	}
+
+	/**
+	 * __isset magic
+	 *
+	 * Allows models to check CI's loaded classes using the same
+	 * syntax as controllers.
+	 *
+	 * @param	string	$key
+	 * @return	bool
+	 */
+	public function __isset($key)
+	{
+		return isset(get_instance()->$key);
 	}
 
 }

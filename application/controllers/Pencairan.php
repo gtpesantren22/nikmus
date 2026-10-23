@@ -93,8 +93,8 @@ Terimakasih';
 		$this->model->simpan('history', $data4);
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('ok', 'Pengajuan sudah dicairkan.');
-			kirim_person($key->nama_key, '085234223306', $pesan);
-			kirim_person($key->nama_key, '085236924510', $pesan);
+			kirim_person($key->nama_key, '082333357534', $pesan, 'BENDAHARA');
+			// kirim_person($key->nama_key, '085236924510', $pesan);
 			redirect('pencairan');
 		} else {
 			$this->session->set_flashdata('error', 'Pencairan Gagal');

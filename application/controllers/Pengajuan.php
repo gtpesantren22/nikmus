@@ -199,8 +199,8 @@ Terimakasih';
         $this->model->simpan('history', $data4);
         if ($this->db->affected_rows() > 0) {
             $this->session->set_flashdata('ok', 'Pengajuan Berhasil. Silahkan menunggu verval dari accounting!');
-            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan);
-            kirim_person($key->nama_key, '085236924510', $pesan);
+            kirim_group($key->nama_key, '120363279501347686@g.us', $pesan, 'BENDAHARA');
+            // kirim_person($key->nama_key, '085236924510', $pesan);
             redirect('pengajuan');
         } else {
             $this->session->set_flashdata('error', 'Hapus Data Gagal');

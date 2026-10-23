@@ -84,8 +84,8 @@ Terimakasih';
 		$this->model->edit('pengajuan', $data, $kode);
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('ok', 'Pengajuan Disetujui. Silahkan menghubungi admin pencairan untuk pencairan pengajuan!');
-			kirim_person($key->nama_key, '085234223306', $pesan);
-			kirim_person($key->nama_key, '085236924510', $pesan);
+			kirim_person($key->nama_key, '082333357534', $pesan, 'BENDAHARA');
+			// kirim_person($key->nama_key, '085236924510', $pesan, 'BENDAHARA');
 			redirect('verval');
 		} else {
 			$this->session->set_flashdata('error', 'Persetujuan Data Gagal');
@@ -123,8 +123,8 @@ Terimakasih';
 		$this->model->edit('pengajuan', $data, $kode);
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('ok', 'Pengajuan Ditolak');
-			kirim_person($key->nama_key, '085236924510', $pesan);
-			kirim_group($key->nama_key, '120363279501347686@g.us', $pesan);
+			// kirim_person($key->nama_key, '085236924510', $pesan, 'BENDAHARA');
+			kirim_group($key->nama_key, '120363279501347686@g.us', $pesan, 'BENDAHARA');
 			redirect('verval');
 		} else {
 			$this->session->set_flashdata('error', 'Persetujuan Data Gagal');
