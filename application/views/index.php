@@ -1,7 +1,7 @@
 <?php
 
-$dana = $pagu->nominal;
-$pake = $pakai->krit + $pakai->sopir + $pakai->trans;
+$dana = isset($pagu->nominal) ? $pagu->nominal : 0;
+$pake = isset($pakai) ? ($pakai->krit + $pakai->sopir + $pakai->trans) : 0;
 $sisa = $dana - $pake;
 ?>
 <div class="content-wrapper">
@@ -77,7 +77,7 @@ $sisa = $dana - $pake;
           <div class="small-box bg-green">
             <div class="inner">
               <h3><?= rupiah($pake) ?></h3>
-              <p>Dana Terserap - <?= round(($pake) / $dana * 100, 2) ?>%</p>
+              <p>Dana Terserap - <?= ($dana > 0) ? round(($pake) / $dana * 100, 2) : 0 ?>%</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
@@ -90,7 +90,7 @@ $sisa = $dana - $pake;
           <div class="small-box bg-yellow">
             <div class="inner">
               <h3><?= rupiah($sisa) ?></h3>
-              <p>Sisa Dana - <?= round(($sisa) / $dana * 100, 2) ?>%</p>
+              <p>Sisa Dana - <?= ($dana > 0) ? round(($sisa) / $dana * 100, 2) : 0 ?>%</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
